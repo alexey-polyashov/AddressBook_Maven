@@ -11,7 +11,7 @@ public class DepartmentData {
     private Long parentId;
     private String parentName;
     private PersonData head;
-    List<DepartmentData> subDepartments;
+    List<DepartmentData> departments;
 
     public void setId(Long id) {
         this.id = id;
@@ -29,8 +29,8 @@ public class DepartmentData {
         this.head = head;
     }
 
-    public void setSubDepartments(List<DepartmentData> subDepartments) {
-        this.subDepartments = subDepartments;
+    public void setDepartments(List<DepartmentData> subDepartments) {
+        this.departments = subDepartments;
     }
 
     public Long getId() {
@@ -49,8 +49,8 @@ public class DepartmentData {
         return head;
     }
 
-    public List<DepartmentData> getSubDepartments() {
-        return subDepartments;
+    public List<DepartmentData> getDepartments() {
+        return departments;
     }
 
     public DepartmentData() {

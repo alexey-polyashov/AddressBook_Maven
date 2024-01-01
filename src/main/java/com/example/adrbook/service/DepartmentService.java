@@ -29,7 +29,7 @@ public class DepartmentService {
         for(Department d: depList){
             if(d.getParent().orElse(null) == parent) {
                 DepartmentData depData = departmentMapper.toDepartmentData(d);
-                depData.setSubDepartments(deepDepartmentsPass(depList, d));
+                depData.setDepartments(deepDepartmentsPass(depList, d));
                 depListDto.add(depData);
             }
         }

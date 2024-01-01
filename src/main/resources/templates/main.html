@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container">
+
+    <h1>Список подразделений</h1>
+
+    <ul th:fragment="fragment_node(departmentList)" th:unless="${#lists.isEmpty(departmentList.getDepartments())}" >
+        <li th:each="child : ${departmentList.getDepartments()}" th:inline="text">
+            [[${child.getName()}]]
+            <ul th:replace="this::fragment_node(${child})"></ul>
+        </li>
+    </ul>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
+
