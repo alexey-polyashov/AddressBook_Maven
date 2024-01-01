@@ -1,7 +1,5 @@
 package com.example.adrbook.dto;
 
-import com.example.adrbook.entity.Department;
-
 import java.util.List;
 
 public class DepartmentData {

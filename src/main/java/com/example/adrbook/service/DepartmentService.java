@@ -55,8 +55,6 @@ public class DepartmentService {
     }
 
     public DepartmentData getSubDepartmentsList(Long departmentId){
-        List<Department> depList = departmentRepo.findAll();
-        DepartmentsList depListDto = new DepartmentsList();
         Department department = departmentRepo.findDepartmentById(departmentId)
                 .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено"));
         return  departmentMapper.toDepartmentData(department);
