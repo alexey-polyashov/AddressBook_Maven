@@ -1,7 +1,6 @@
 package com.example.adrbook.dto;
 
 import com.example.adrbook.entity.Department;
-import com.example.adrbook.entity.PersonEntity;
 import com.example.adrbook.utility.DepartmentID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

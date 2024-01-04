@@ -48,7 +48,7 @@ footer{
 .phone-teg{color:darkred}
 .email-teg{color:darkblue}
 
-.title-string {marging:1em auto;text-align: center;font-size: x-large;}
+.title-string {margin:1em auto;text-align: center;font-size: x-large;}
 
 .mark, mark {
     padding-left:0;
@@ -70,7 +70,7 @@ footer{
 }
 .form_toggle-item label {
     display: inline-block;
-    padding: 0px 15px;
+    padding: 0 15px;
     line-height: 34px;
     border: 1px solid #999;
     border-right: none;

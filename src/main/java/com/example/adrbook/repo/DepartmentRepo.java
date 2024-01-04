@@ -2,7 +2,6 @@ package com.example.adrbook.repo;
 
 import com.example.adrbook.entity.Department;
 import com.example.adrbook.entity.PersonEntity;
-import com.example.adrbook.utility.DepartmentID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
