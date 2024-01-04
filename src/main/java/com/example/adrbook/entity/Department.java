@@ -26,12 +26,15 @@ public class Department {
     @ManyToOne
     private Department parent;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<PersonEntity> employees;
 
     @OneToOne
     @JoinColumn(name = "head_id")
     private PersonEntity head;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Department> departments;
 
     public Department() {
     }

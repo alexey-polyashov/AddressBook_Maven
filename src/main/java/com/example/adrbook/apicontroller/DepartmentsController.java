@@ -41,4 +41,9 @@ public class DepartmentsController {
     List<PersonData> getAllDepartmentEmployees(@PathVariable Long departmentId) {
         return departmentService.getEmployees(departmentId, true);
     }
+
+    @DeleteMapping(value="/{departmentId}")
+    void deleteDepartment(@PathVariable Long departmentId){
+        departmentService.delete(departmentId);
+    }
 }

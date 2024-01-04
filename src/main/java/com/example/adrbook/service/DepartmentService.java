@@ -132,5 +132,10 @@ public class DepartmentService {
                 .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено")).getHead().orElse(new PersonEntity()));
     }
 
+    public void delete(Long departmentId){
+        Department department = departmentRepo.findDepartmentById(departmentId)
+                .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено"));
+        departmentRepo.delete(department);
+    }
 
 }

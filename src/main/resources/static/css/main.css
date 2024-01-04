@@ -39,6 +39,8 @@ footer{
     background-image: url("../img/empl_big.png");
 }
 
+.modal-header{background: lightgray;}
+
 .department {font-weight: bold}
 .department:hover {background: #f9f1ed}
 .department-head {font-weight: lighter}
