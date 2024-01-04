@@ -16,7 +16,7 @@ public class FullTextIndex {
     @Column
     private String text;
 
-    @Column(name="data_type")
+    @Column(name = "data_type")
     private DataType dataType;
 
     @Column

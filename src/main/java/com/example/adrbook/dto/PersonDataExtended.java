@@ -1,17 +1,22 @@
 package com.example.adrbook.dto;
 
-public class PersonData {
+public class PersonDataExtended {
     private Long id;
     private String tabNumber;
     private String fullName;
     private String position;
     private String phoneNumber;
     private String email;
+    private String managerName;
+    private String managerPhoneNumber;
 
+
+
+    private String managerEmail;
     private String departmentName;
     private Long departmentId;
 
-    public PersonData() {
+    public PersonDataExtended() {
     }
 
     public Long getId() {
@@ -62,6 +67,14 @@ public class PersonData {
         this.email = email;
     }
 
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
     public String getDepartmentName() {
         return departmentName;
     }
@@ -77,5 +90,19 @@ public class PersonData {
     public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
     }
+    public String getManagerPhoneNumber() {
+        return managerPhoneNumber;
+    }
 
+    public void setManagerPhoneNumber(String managerPhoneNumber) {
+        this.managerPhoneNumber = managerPhoneNumber;
+    }
+
+    public String getManagerEmail() {
+        return managerEmail;
+    }
+
+    public void setManagerEmail(String managerEmail) {
+        this.managerEmail = managerEmail;
+    }
 }

@@ -9,9 +9,7 @@ import com.example.adrbook.utility.DepartmentID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +45,31 @@ public class DepartmentService {
         return depIDs;
     }
 
+    private List<Department> expandDepartmentsList(List<Department> depList) {
+        List<Department> parents = new ArrayList<>();
+        for(Department d: depList){
+            parents.addAll(getAllParents(d));
+
+        }
+        for(Department parent: parents){
+            if(!depList.contains(parent)){
+                depList.add(parent);
+            }
+        }
+        return depList;
+    }
+
+    private List<Department> getAllParents(Department d) {
+        List<Department> parents = new ArrayList<>();
+        if(d.getParent().isPresent()){
+            Department tempd = d.getParent().get();
+            tempd.setEmployees(new ArrayList<>());
+            parents.add(tempd);
+            parents.addAll(getAllParents(d.getParent().get()));
+        }
+        return parents;
+    }
+
     public DepartmentsList getDepartmentList(){
         List<Department> depList = departmentRepo.findAll();
         DepartmentsList depListDto = new DepartmentsList();
@@ -54,9 +77,33 @@ public class DepartmentService {
         return  depListDto;
     }
 
-    public DepartmentData getSubDepartmentsList(Long departmentId){
-        Department department = departmentRepo.findDepartmentById(departmentId)
+    public DepartmentsList getDepartmentListWithEmployees(){
+        List<Department> depList = departmentRepo.getDepartmentsAndEmployees();
+        DepartmentsList depListDto = new DepartmentsList();
+        depListDto.setDepartments(deepDepartmentsPass(depList, null));
+        return  depListDto;
+    }
+
+    public DepartmentsList getDepartmentListWithEmployees(String searchtext){
+        List<Department> depList = departmentRepo.getDepartmentsAndEmployees(searchtext);
+        expandDepartmentsList(depList);
+        DepartmentsList depListDto = new DepartmentsList();
+        depListDto.setDepartments(deepDepartmentsPass(depList, null));
+        return  depListDto;
+    }
+
+    public DepartmentData getSubDepartmentsList(Long departmentId, Boolean showEmployees){
+        Department department = new Department();
+        departmentRepo.findDepartmentById(departmentId)
                 .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено"));
+        if(showEmployees){
+            departmentRepo.getDepartmentsAndEmployees(departmentId)
+                    .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено"));
+        }else{
+            department = departmentRepo.findDepartmentById(departmentId)
+                    .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено"));
+        }
+
         return  departmentMapper.toDepartmentData(department);
     }
 
@@ -84,5 +131,6 @@ public class DepartmentService {
         return personMapper.toPersonData(departmentRepo.findDepartmentById(departmentId)
                 .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено")).getHead().orElse(new PersonEntity()));
     }
+
 
 }

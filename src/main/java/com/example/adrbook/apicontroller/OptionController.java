@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OptionController {
 
     @GetMapping(value = "/heartbeat", produces = "application/json")
-    public String getAllDepartments(){
+    public String getAllDepartments() {
         return "OK";
     }
 

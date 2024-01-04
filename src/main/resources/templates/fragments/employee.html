@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<table class="table">
+    <tbody>
+    <tr>
+        <th>ФИО:</th><td>[[${employee.getFullName()}]]</td>
+    </tr>
+    <tr>
+        <th>Должность:</th><td>[[${employee.getPosition()}]]</td>
+    </tr>
+    <tr>
+        <th>Подразделение:</th><td>[[${employee.getDepartmentName()}]]</td>
+    </tr>
+<tr>
+    <td colspan="2"  class="title-string">Контакты сотрудника</td>
+</tr>
+    <tr class="table-group-divider">
+        <th>Телефон:</th><td>[[${employee.getPhoneNumber()}]]</td>
+    </tr>
+    <tr>
+        <th>Email:</th><td><a th:href="${'mailto:' + employee.getEmail()}">[[${employee.getEmail()}]]</a></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="title-string">Руководитель сотрудника</td>
+    </tr>
+    <tr class="table-group-divider">
+        <th>ФИО:</th><td>[[${employee.getManagerName()}]]</td>
+    </tr>
+    <tr>
+        <th>Телефон:</th><td>[[${employee.getManagerPhoneNumber()}]]</td>
+    </tr>
+    <tr>
+        <th>Email:</th><td><a th:href="${'mailto:' + employee.getManagerEmail()}">[[${employee.getManagerEmail()}]]</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

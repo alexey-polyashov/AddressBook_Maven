@@ -10,6 +10,15 @@ public class DepartmentData {
     private String parentName;
     private PersonData head;
     List<DepartmentData> departments;
+    List<PersonData> employees;
+
+    public List<PersonData> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<PersonData> employees) {
+        this.employees = employees;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -35,6 +44,13 @@ public class DepartmentData {
         return id;
     }
 
+    public String getHeadPresentation() {
+        if(this.head==null){
+            return "";
+        }else{
+            return this.head.getPosition() + " - " + this.head.getFullName();
+        }
+    }
     public String getName() {
         return name;
     }

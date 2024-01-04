@@ -2,28 +2,115 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <div th:replace="fragments/header :: header-css"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
 </head>
 <body>
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container">
+<div class="container" id="addressData">
 
-    <h1>Список подразделений</h1>
-
-    <ul th:fragment="fragment_node(departmentList)" th:unless="${#lists.isEmpty(departmentList.getDepartments())}" >
+    <p></p>
+    <h4>Список сотрудников по подразделениям</h4>
+    <p></p>
+    <div align="center" th:if="${#lists.isEmpty(departmentList.getDepartments())}" style="margin:auto; padding:3em 0;">
+        <p>По запросу ничего не найдено...</p>
+        <p>Попробуйте изменить строку поиска.</p>
+    </div>
+    <ul th:fragment="fragment_node(departmentList, currentId)" th:unless="${#lists.isEmpty(departmentList.getDepartments())}" class="nomarkers">
         <li th:each="child : ${departmentList.getDepartments()}" th:inline="text">
-            [[${child.getName()}]]
-            <ul th:replace="this::fragment_node(${child})"></ul>
+            <span class="myicon-folder"></span><span  class="department">&nbsp;[[${child.getName()}]] <span class="department-head"> ( Руководитель: [[${child.getHeadPresentation()}]] )</span></span>
+            <ul th:unless="${#lists.isEmpty(child.getEmployees())}"  class="nomarkers">
+                <li th:each="empl : ${child.getEmployees()}" th:inline="text" class="employee" data-bs-toggle="modal" data-bs-target="#exampleModal" th:attr="data-bs-whatever=${empl.getId()}">
+                    <span class="myicon-employee"></span>&nbsp;<span>[[${empl.getFullName()}]]</span>
+                    - <span>[[${empl.getPosition()}]]</span>
+                    (<span class="phone-teg contact-teg"> тел: [[${empl.getPhoneNumber()}]] ;</span>
+                     <span class="email-teg contact-teg"> email: <a href="mailto:[[${empl.getEmail()}]]">[[${empl.getEmail()}]]</a></span>
+                    <span>)</span>
+                </li>
+            </ul>
+            <ul th:replace="this::fragment_node(${child},${child.getId()})"></ul>
         </li>
+
     </ul>
 
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
+<!-- Модальное окно -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span class="myicon-employee-big"></span>Данные сотрудника</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body" id="employeeInfo">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+<!--                <button type="button" class="btn btn-primary">Сохранить изменения</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
+
+    var exampleModal = document.getElementById('exampleModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+        // Кнопка, запускающая модальное окно
+        var button = event.relatedTarget
+        // Извлечь информацию из атрибутов data-bs- *
+        var emplId = button.getAttribute('data-bs-whatever')
+        // При необходимости вы можете инициировать запрос AJAX здесь
+        // а затем выполните обновление в обратном вызове.
+        $.ajax({
+            type: "GET",
+            url: "/adressbook/employee/" + emplId,
+            data: {},
+            beforeSend: function () {
+                /* что-то сделать перед */
+            },
+            success: function (data) {
+                var popupWrapper = $("#employeeInfo");
+                popupWrapper.empty();
+                popupWrapper.html(data);
+            },
+            error: function () {
+                console.log(data)
+            }
+        });
+    })
+
+    $(window).on('load', function() {
+        var searchedText = getUrlParameter('searchtext')
+        // $("#addressData.li:contains('"+searchedText+"')").each( function( i, element ) {
+        //     var content = $(element).text();
+        //     content = content.replace( searchedText, '<span class="mark">' + searchedText + '</span>' );
+        //     element.html( content );
+        // });
+        // // Highlight search term inside a specific context
+        $("#addressData").unmark().mark(searchedText);
+    });
+
+</script>
 
 </body>
 </html>

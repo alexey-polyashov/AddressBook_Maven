@@ -13,16 +13,18 @@ public abstract class DepartmentMapper {
     @Autowired
     PersonEntityMapper personEntityMapper;
 
-    @Mapping(target="parentName", expression = "java(dep.getParentName())")
-    @Mapping(target="parentId", expression = "java(dep.getParentId())")
-    @Mapping(target="head", expression = "java(this.getHead(dep))")
+    @Mapping(target = "parentName", expression = "java(dep.getParentName())")
+    @Mapping(target = "parentId", expression = "java(dep.getParentId())")
+    @Mapping(target = "head", expression = "java(this.getHead(dep))")
     public abstract DepartmentData toDepartmentData(Department dep);
+
     public abstract Department toDepartment(DepartmentData depData);
-    @Mapping(target="parentID", expression = "java(dep.getParentId())")
+
+    @Mapping(target = "parentID", expression = "java(dep.getParentId())")
     public abstract DepartmentID toDepartmentId(Department dep);
 
-    protected PersonData getHead(Department dep){
-        if(dep.getHead().isEmpty()){
+    protected PersonData getHead(Department dep) {
+        if (dep.getHead().isEmpty()) {
             return new PersonData();
         }
         return personEntityMapper.toPersonData(dep.getHead().get());

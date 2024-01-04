@@ -11,7 +11,7 @@ public class PersonEntity {
     @Column(nullable = false)
     private Long id;
 
-    @Column(name = "data_type",columnDefinition = "varchar(255) default 'PERSON'")
+    @Column(name = "data_type", columnDefinition = "varchar(255) default 'P'")
     private DataType dataType;
 
     @ManyToOne
@@ -27,7 +27,7 @@ public class PersonEntity {
     @Column
     private String position;
 
-    @Column(name="phone_number")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column
@@ -99,4 +99,51 @@ public class PersonEntity {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+    public PersonEntity getManager() {
+        Department currDep = this.getDepartment();
+        PersonEntity manager = null;
+        while (manager == null) {
+            if (currDep != null) {
+                manager = currDep.getHead().orElse(null);
+            } else {
+                break;
+            }
+            if(manager == this){
+                manager=null;
+                if(currDep.getParent().isPresent()) {
+                    currDep = currDep.getParent().get();
+                }else{
+                    break;
+                }
+            }
+        }
+        return manager;
+    }
+
+    public String getManagerFullName() {
+        PersonEntity manager = getManager();
+        if (manager == null) {
+            return "";
+        }
+        return manager.getFullName();
+    }
+
+    public String getManagerPhoneNumber() {
+        PersonEntity manager = getManager();
+        if (manager == null) {
+            return "";
+        }
+        return manager.getPhoneNumber();
+    }
+
+    public String getManagerEmail() {
+        PersonEntity manager = getManager();
+        if (manager == null) {
+            return "";
+        }
+        return manager.getEmail();
+    }
+
 }

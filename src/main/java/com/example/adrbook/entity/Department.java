@@ -10,11 +10,11 @@ import java.util.Optional;
 public class Department {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
 
-    @Column(columnDefinition = "varchar(255) default 'DEPARTMENT'")
+    @Column(columnDefinition = "varchar(255) default 'DEP'")
     private DataType data_type;
 
     @Column
@@ -72,32 +72,47 @@ public class Department {
         return Optional.ofNullable(parent);
     }
 
-    public String getParentName(){
-        if(getParent().isEmpty()){
+    public String getParentName() {
+        if (getParent().isEmpty()) {
             return "";
         }
         return getParent().get().getName();
     }
-    public Long getParentId(){
-        if(getParent().isEmpty()){
+
+    public Long getParentId() {
+        if (getParent().isEmpty()) {
             return 0L;
         }
         return getParent().get().getId();
     }
 
-    public String getHeadFullName(){
-        if(getHead().isEmpty()){
+    public String getHeadFullName() {
+        if (getHead().isEmpty()) {
             return "";
         }
         return getHead().get().getFullName();
     }
 
-    public Long getHeadId(){
-        if(getHead().isEmpty()){
+    public String getHeadPhoneNumber() {
+        if (getHead().isEmpty()) {
+            return "";
+        }
+        return getHead().get().getPhoneNumber();
+    }
+
+    public String getHeadEmail() {
+        if (getHead().isEmpty()) {
+            return "";
+        }
+        return getHead().get().getEmail();
+    }
+    public Long getHeadId() {
+        if (getHead().isEmpty()) {
             return 0L;
         }
         return getHead().get().getId();
     }
+
     public void setParent(Department parent) {
         this.parent = parent;
     }
