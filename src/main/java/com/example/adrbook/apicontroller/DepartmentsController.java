@@ -1,8 +1,6 @@
 package com.example.adrbook.apicontroller;
 
-import com.example.adrbook.dto.DepartmentData;
-import com.example.adrbook.dto.DepartmentsList;
-import com.example.adrbook.dto.PersonData;
+import com.example.adrbook.dto.*;
 import com.example.adrbook.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,4 +44,21 @@ public class DepartmentsController {
     void deleteDepartment(@PathVariable Long departmentId){
         departmentService.delete(departmentId);
     }
+
+    @PostMapping(value="/", produces = "application/json")
+    Long updateDepartment(@RequestBody UpdateDepartmentData updateDepartmentData){
+        return departmentService.update(updateDepartmentData);
+    }
+
+    @PutMapping(value="/", produces = "application/json")
+    Long addDepartment(@RequestBody NewDepartmentData newDepartmentData){
+        return departmentService.add(newDepartmentData);
+    }
+
+    @PostMapping(value="/{departmentId}/head/{headId}", produces = "application/json")
+    void updateDepartmentHead(@PathVariable Long departmentId, @PathVariable Long headId){
+        departmentService.setHead(departmentId, headId);
+    }
+
+
 }
