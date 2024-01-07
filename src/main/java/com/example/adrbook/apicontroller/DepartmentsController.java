@@ -23,6 +23,10 @@ public class DepartmentsController {
         }
     }
 
+    @GetMapping(value = "/bycode/{departmentCode}", produces = "application/json")
+    List<DepartmentData> findByCode(@PathVariable String departmentCode) {
+        return departmentService.findByCode(departmentCode);
+    }
 
     @GetMapping(value = "/{departmentId}", produces = "application/json")
     DepartmentData getDepartment(@PathVariable Long departmentId,@RequestParam Boolean employees) {
@@ -32,7 +36,6 @@ public class DepartmentsController {
     @GetMapping(value = "/{departmentId}/employees", produces = "application/json")
     List<PersonData> getDepartmentEmployees(@PathVariable Long departmentId) {
         return departmentService.getEmployees(departmentId, false);
-
     }
 
     @GetMapping(value = "/{departmentId}/allemployees", produces = "application/json")
@@ -59,6 +62,5 @@ public class DepartmentsController {
     void updateDepartmentHead(@PathVariable Long departmentId, @PathVariable Long headId){
         departmentService.setHead(departmentId, headId);
     }
-
 
 }

@@ -147,6 +147,13 @@ public class DepartmentService {
         return newDepartment.getId();
     }
 
+    public List<DepartmentData> findByCode(String code){
+        List<Department> departments = departmentRepo.findDepartmentByCode(code);
+        return departments.stream()
+                .map(p->departmentMapper.toDepartmentData(p))
+                .collect(Collectors.toList());
+    }
+
     public Long update(UpdateDepartmentData departmentData){
 
         Long id = departmentData.getId();

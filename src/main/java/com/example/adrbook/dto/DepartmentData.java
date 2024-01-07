@@ -8,6 +8,7 @@ public class DepartmentData {
     private String code;
     private Long parentId;
     private String parentName;
+    private String parentCode;
     private PersonData head;
     List<DepartmentData> departments;
     List<PersonData> employees;
@@ -84,5 +85,13 @@ public class DepartmentData {
 
     public void setParentName(String parentName) {
         this.parentName = parentName;
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
     }
 }
