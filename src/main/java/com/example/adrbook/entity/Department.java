@@ -88,6 +88,12 @@ public class Department {
         }
         return getParent().get().getId();
     }
+    public String getParentCode() {
+        if (getParent().isEmpty()) {
+            return "";
+        }
+        return getParent().get().getCode();
+    }
 
     public String getHeadFullName() {
         if (getHead().isEmpty()) {

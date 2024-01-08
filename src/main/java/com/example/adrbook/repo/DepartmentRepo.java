@@ -28,10 +28,10 @@ public interface DepartmentRepo extends JpaRepository<Department, Long> {
     @Query("Select d From Department d JOIN FETCH d.employees where d.id=:departmentId")
     Optional<Department> getDepartmentsAndEmployees(Long departmentId);
 
-    @Query("Select d From Department d JOIN FETCH d.employees")
+    @Query("Select d From Department d Left JOIN FETCH d.employees")
     List<Department> getDepartmentsAndEmployees();
 
-    @Query("Select d From Department d JOIN FETCH d.employees emlp Where lower(emlp.fullName) like lower(Concat('%',:searchtext,'%'))")
+    @Query("Select d From Department d Left JOIN FETCH d.employees emlp Where lower(emlp.fullName) like lower(Concat('%',:searchtext,'%'))")
     List<Department> getDepartmentsAndEmployees(@Param("searchtext") String searchtext);
 
 }

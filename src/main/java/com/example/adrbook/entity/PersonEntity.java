@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 @Entity
 public class PersonEntity {
 
-    @GeneratedValue
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
 

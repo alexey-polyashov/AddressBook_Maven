@@ -23,7 +23,7 @@ public class DepartmentsController {
         }
     }
 
-    @GetMapping(value = "/bycode/{departmentCode}", produces = "application/json")
+    @GetMapping(value = "/code/{departmentCode}", produces = "application/json")
     List<DepartmentData> findByCode(@PathVariable String departmentCode) {
         return departmentService.findByCode(departmentCode);
     }

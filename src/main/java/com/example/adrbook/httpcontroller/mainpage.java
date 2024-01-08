@@ -25,7 +25,7 @@ public class mainpage {
     }
     @GetMapping(value = {"/", "/main"})
     public String viewHomePage(Model model, @RequestParam(name="searchtext", required = false) String searchtext) {
-        if(searchtext!=null){
+        if(searchtext!=null && !searchtext.isEmpty()){
             model.addAttribute("departmentList", departmentService.getDepartmentListWithEmployees(searchtext));
         }else {
             model.addAttribute("departmentList", departmentService.getDepartmentListWithEmployees());

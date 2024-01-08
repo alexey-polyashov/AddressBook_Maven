@@ -46,8 +46,8 @@ public class DepartmentData {
     }
 
     public String getHeadPresentation() {
-        if(this.head==null){
-            return "";
+        if(this.head==null || this.head.getId()==null){
+            return "Не указан";
         }else{
             return this.head.getPosition() + " - " + this.head.getFullName();
         }
