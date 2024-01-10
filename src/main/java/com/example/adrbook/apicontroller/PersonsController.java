@@ -40,12 +40,12 @@ public class PersonsController {
         personService.delete(personId);
     }
 
-    @PostMapping(value = "/", produces = "application/json")
+    @PutMapping(value = "/", produces = "application/json")
     public Long updatePerson(@RequestBody UpdatePersonData updatePersonData) {
         return personService.update(updatePersonData);
     }
 
-    @PutMapping(value = "/", produces = "application/json")
+    @PostMapping(value = "/", produces = "application/json")
     public Long addDepartment(@RequestBody NewPersonData newPersonData) {
         return personService.add(newPersonData);
     }

@@ -36,7 +36,7 @@ public class mainpage {
     @GetMapping(value = "/employee/{employeeId}")
     public String viewEmployee(Model model, @PathVariable Long employeeId) {
         model.addAttribute("employee", personService.getExtendedPersonInfo(employeeId));
-        return "/fragments/employee";
+        return "fragments/employee";
     }
 
     @GetMapping("/403")

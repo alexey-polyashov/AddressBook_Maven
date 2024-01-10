@@ -1,7 +1,6 @@
 package com.example.adrbook.service;
 
 import com.example.adrbook.dto.*;
-import com.example.adrbook.entity.Department;
 import com.example.adrbook.entity.PersonEntity;
 import com.example.adrbook.exception.NotFoundException;
 import com.example.adrbook.repo.DepartmentRepo;

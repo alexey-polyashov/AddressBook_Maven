@@ -48,12 +48,12 @@ public class DepartmentsController {
         departmentService.delete(departmentId);
     }
 
-    @PostMapping(value="/", produces = "application/json")
+    @PutMapping(value="/", produces = "application/json")
     Long updateDepartment(@RequestBody UpdateDepartmentData updateDepartmentData){
         return departmentService.update(updateDepartmentData);
     }
 
-    @PutMapping(value="/", produces = "application/json")
+    @PostMapping(value="/", produces = "application/json")
     Long addDepartment(@RequestBody NewDepartmentData newDepartmentData){
         return departmentService.add(newDepartmentData);
     }
