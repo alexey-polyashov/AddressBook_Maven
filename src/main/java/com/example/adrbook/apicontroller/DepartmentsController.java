@@ -15,7 +15,7 @@ public class DepartmentsController {
     private DepartmentService departmentService;
 
     @GetMapping(value = "/", produces = "application/json")
-    DepartmentsList getAllDepartments(@RequestParam Boolean employees) {
+    DepartmentsList getAllDepartments(@RequestParam(required = false) Boolean employees) {
         if(employees){
             return departmentService.getDepartmentListWithEmployees();
         }else {
