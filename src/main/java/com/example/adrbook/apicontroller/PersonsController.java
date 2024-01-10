@@ -1,7 +1,6 @@
 package com.example.adrbook.apicontroller;
 
 import com.example.adrbook.dto.*;
-import com.example.adrbook.service.DepartmentService;
 import com.example.adrbook.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ public class PersonsController {
     }
 
     @GetMapping(value = "/extended", produces = "application/json")
-    public List<PersonDataExtended> getAllPersons(@RequestParam Boolean with_managers) {
+    public List<PersonDataExtended> getAllPersonsWithManagers() {
         return personService.getAllEmployeesWithManagers();
     }
 
