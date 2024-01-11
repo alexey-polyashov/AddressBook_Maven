@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("v1/departments")
@@ -15,11 +16,11 @@ public class DepartmentsController {
     private DepartmentService departmentService;
 
     @GetMapping(value = "/", produces = "application/json")
-    DepartmentsList getAllDepartments(@RequestParam(required = false) Boolean employees) {
-        if(employees){
-            return departmentService.getDepartmentListWithEmployees();
+    DepartmentsList getAllDepartments(@RequestParam(required = false) Optional<Boolean> employees, @RequestParam(required = false) Optional<Boolean> flat) {
+        if(employees.orElse(false)){
+            return departmentService.getDepartmentListWithEmployees(flat.orElse(false));
         }else {
-            return departmentService.getDepartmentList();
+            return departmentService.getDepartmentList(flat.orElse(false));
         }
     }
 

@@ -5,9 +5,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class FullTextIndex {
+
     @Id
     @GeneratedValue()
     @Column(nullable = false)
@@ -67,4 +69,5 @@ public class FullTextIndex {
     public void setPresentation(String presentation) {
         this.presentation = presentation;
     }
+
 }

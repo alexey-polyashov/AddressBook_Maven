@@ -73,17 +73,29 @@ public class DepartmentService {
         return parents;
     }
 
-    public DepartmentsList getDepartmentList(){
+    public DepartmentsList getDepartmentList(boolean flat){
         List<Department> depList = departmentRepo.findAll();
         DepartmentsList depListDto = new DepartmentsList();
-        depListDto.setDepartments(deepDepartmentsPass(depList, null));
+        if(!flat) {
+            depListDto.setDepartments(deepDepartmentsPass(depList, null));
+        }else{
+            depListDto.setDepartments(depList.stream()
+                    .map(departmentMapper::toDepartmentData)
+                    .collect(Collectors.toList()));
+        }
         return  depListDto;
     }
 
-    public DepartmentsList getDepartmentListWithEmployees(){
+    public DepartmentsList getDepartmentListWithEmployees(Boolean flat){
         List<Department> depList = departmentRepo.getDepartmentsAndEmployees();
         DepartmentsList depListDto = new DepartmentsList();
-        depListDto.setDepartments(deepDepartmentsPass(depList, null));
+        if(!flat) {
+            depListDto.setDepartments(deepDepartmentsPass(depList, null));
+        }else{
+            depListDto.setDepartments(depList.stream()
+                    .map(departmentMapper::toDepartmentData)
+                    .collect(Collectors.toList()));
+        }
         return  depListDto;
     }
 
