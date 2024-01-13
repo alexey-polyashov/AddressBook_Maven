@@ -20,8 +20,8 @@
         <p>Попробуйте изменить строку поиска.</p>
     </div>
     <ul th:fragment="fragment_node(departmentList, currentId)" th:unless="${#lists.isEmpty(departmentList.getDepartments())}" class="nomarkers">
-        <li onclick="rollDepartment(event, $(this))" th:each="child : ${departmentList.getDepartments()}" th:inline="text" data-bs-toggle="no-modal" class="department-describe">
-            <span class="department-presentation">
+        <li th:each="child : ${departmentList.getDepartments()}" th:inline="text" data-bs-toggle="no-modal" class="department-describe">
+            <span class="department-presentation" onclick="rollDepartment(event, $(this))">
                 <span class="myicon-folder"></span>
                 <span class="myicon-unwrap"></span>
                 <span  class="department">&nbsp;[[${child.getName()}]]
@@ -122,10 +122,12 @@
         event.stopPropagation();
         if(event.delegateTarget!=null) return;
         if(rolled==null || rolled===false){
-            element.children().not('.department-presentation').slideUp(500);
+            element.siblings().slideUp(500);
+            element.find(".myicon-unwrap").width(24).fadeIn(500);
             element.attr('rolled', true);
         }else{
-            element.children().slideDown(500);
+            element.siblings().slideDown(500);
+            element.find(".myicon-unwrap").fadeOut(500);
             element.removeAttr('rolled');
         }
     }

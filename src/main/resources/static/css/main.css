@@ -26,8 +26,8 @@ footer{
     vertical-align: middle;
     background-size: contain;
     height: 24px;
-    width: 24px;
-    background-image: url("../img/arrow-down.png");
+    width: 0px;
+    background-image: url("../img/unwrap_icon.png");
 }
 
 .myicon-employee{
