@@ -21,6 +21,15 @@ footer{
     background-image: url("../img/department32.png");
 }
 
+.myicon-unwrap{
+    display: inline-block;
+    vertical-align: middle;
+    background-size: contain;
+    height: 24px;
+    width: 24px;
+    background-image: url("../img/arrow-down.png");
+}
+
 .myicon-employee{
     display: inline-block;
     vertical-align: middle;

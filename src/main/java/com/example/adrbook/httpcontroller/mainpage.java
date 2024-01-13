@@ -28,7 +28,7 @@ public class mainpage {
         if(searchtext!=null && !searchtext.isEmpty()){
             model.addAttribute("departmentList", departmentService.getDepartmentListWithEmployees(searchtext));
         }else {
-            model.addAttribute("departmentList", departmentService.getDepartmentListWithEmployees());
+            model.addAttribute("departmentList", departmentService.getDepartmentListWithEmployees(false));
         }
         return "main";
     }

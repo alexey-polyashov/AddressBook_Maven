@@ -20,8 +20,14 @@
         <p>Попробуйте изменить строку поиска.</p>
     </div>
     <ul th:fragment="fragment_node(departmentList, currentId)" th:unless="${#lists.isEmpty(departmentList.getDepartments())}" class="nomarkers">
-        <li th:each="child : ${departmentList.getDepartments()}" th:inline="text">
-            <span class="myicon-folder"></span><span  class="department">&nbsp;[[${child.getName()}]] <span class="department-head"> ( Руководитель: [[${child.getHeadPresentation()}]] )</span></span>
+        <li onclick="rollDepartment(event, $(this))" th:each="child : ${departmentList.getDepartments()}" th:inline="text" data-bs-toggle="no-modal" class="department-describe">
+            <span class="department-presentation">
+                <span class="myicon-folder"></span>
+                <span class="myicon-unwrap"></span>
+                <span  class="department">&nbsp;[[${child.getName()}]]
+                    <span class="department-head"> ( Руководитель: [[${child.getHeadPresentation()}]] )</span>
+                </span>
+            </span>
             <ul th:unless="${#lists.isEmpty(child.getEmployees())}"  class="nomarkers">
                 <li th:each="empl : ${child.getEmployees()}" th:inline="text" class="employee" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${empl.getId()}">
                     <span class="myicon-employee"></span>&nbsp;<span>[[${empl.getFullName()}]]</span>
@@ -60,7 +66,7 @@
 
 <script>
     var getUrlParameter = function getUrlParameter(sParam) {
-        var sPageURL = window.location.search.substring(1),
+        let sPageURL = window.location.search.substring(1),
             sURLVariables = sPageURL.split('&'),
             sParameterName,
             i;
@@ -76,11 +82,12 @@
     var employeeModel = document.getElementById('employeeModel')
     employeeModel.addEventListener('show.bs.modal', function (event) {
         // Кнопка, запускающая модальное окно
-        var button = event.relatedTarget
+        let button = event.relatedTarget;
         // Извлечь информацию из атрибутов data-bs- *
-        var emplId = button.getAttribute('data-bs-whatever')
+        let emplId = button.getAttribute('data-bs-whatever');
         // При необходимости вы можете инициировать запрос AJAX здесь
         // а затем выполните обновление в обратном вызове.
+        event.stopPropagation();
         $.ajax({
             type: "GET",
             url: "/adressbook/employee/" + emplId,
@@ -89,7 +96,7 @@
                 /* что-то сделать перед */
             },
             success: function (data) {
-                var popupWrapper = $("#employeeInfo");
+                let popupWrapper = $("#employeeInfo");
                 popupWrapper.empty();
                 popupWrapper.html(data);
             },
@@ -100,7 +107,7 @@
     })
 
     $(window).on('load', function() {
-        var searchedText = getUrlParameter('searchtext')
+        let searchedText = getUrlParameter('searchtext')
         // $("#addressData.li:contains('"+searchedText+"')").each( function( i, element ) {
         //     var content = $(element).text();
         //     content = content.replace( searchedText, '<span class="mark">' + searchedText + '</span>' );
@@ -109,6 +116,19 @@
         // // Highlight search term inside a specific context
         $("#addressData").unmark().mark(searchedText);
     });
+
+    function rollDepartment(event, element){
+        let rolled = element.attr('rolled');
+        event.stopPropagation();
+        if(event.delegateTarget!=null) return;
+        if(rolled==null || rolled===false){
+            element.children().not('.department-presentation').slideUp(500);
+            element.attr('rolled', true);
+        }else{
+            element.children().slideDown(500);
+            element.removeAttr('rolled');
+        }
+    }
 
 </script>
 
