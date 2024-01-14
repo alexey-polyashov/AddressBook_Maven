@@ -26,9 +26,9 @@ public abstract class DepartmentMapper {
     @Mapping(target = "head", expression = "java(this.getHead(dep))")
     public abstract DepartmentData toDepartmentData(Department dep);
 
-    @Mapping(target="data_type", expression="java(com.example.adrbook.utility.DataType.DEPARTMENT)")
-    @Mapping(target="parent", expression="java(this.getParent(depData.getParentId()))")
-    public abstract Department toDepartment(DepartmentData depData);
+//    @Mapping(target="data_type", expression="java(com.example.adrbook.utility.DataType.DEPARTMENT)")
+//    @Mapping(target="parent", expression="java(this.getParent(depData.getParentId()))")
+//    public abstract Department toDepartment(DepartmentData depData);
 
     @Mapping(target="data_type", expression="java(com.example.adrbook.utility.DataType.DEPARTMENT)")
     @Mapping(target="parent", expression="java(this.getParent(depData.getParentId()))")
