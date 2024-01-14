@@ -30,6 +30,13 @@ public class DepartmentService {
         for(Department d: depList){
             if(d.getParent().orElse(null) == parent) {
                 DepartmentData depData = departmentMapper.toDepartmentData(d);
+                depData.getEmployees().sort((s1, s2) -> {
+                    int res = s1.getPosition().compareTo(s2.getPosition());
+                    if(res==0){
+                        res = s1.getFullName().compareTo(s2.getFullName());
+                    }
+                    return res;
+                });
                 depData.setDepartments(deepDepartmentsPass(depList, d));
                 depListDto.add(depData);
             }
