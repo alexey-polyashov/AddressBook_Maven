@@ -4,7 +4,6 @@ import com.example.adrbook.entity.Department;
 import com.example.adrbook.entity.PersonEntity;
 import com.example.adrbook.exception.NotFoundException;
 import com.example.adrbook.repo.DepartmentRepo;
-import com.example.adrbook.repo.PersonEntityRepo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +18,16 @@ public abstract class PersonEntityMapper {
 
     @Mapping(target = "departmentName", expression = "java(p.getDepartment().getName())")
     @Mapping(target = "departmentId", expression = "java(p.getDepartment().getId())")
+    @Mapping(target = "birthDay", source = "birthDay", dateFormat = "dd MMMM")
     public abstract PersonData toPersonData(PersonEntity p);
 
     @Mapping(target = "managerName", expression = "java(p.getManagerFullName())")
     @Mapping(target = "managerPhoneNumber", expression = "java(p.getManagerPhoneNumber())")
+    @Mapping(target = "managerCellPhone", expression = "java(p.getManagerCellPhone())")
     @Mapping(target = "managerEmail", expression = "java(p.getManagerEmail())")
     @Mapping(target = "departmentName", expression = "java(p.getDepartment().getName())")
     @Mapping(target = "departmentId", expression = "java(p.getDepartment().getId())")
+    @Mapping(target = "birthDay", source = "birthDay", dateFormat = "dd MMMM")
     public abstract PersonDataExtended toPersonDataExtended(PersonEntity p);
 
     @Mapping(target="dataType", expression="java(com.example.adrbook.utility.DataType.PERSON)")

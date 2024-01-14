@@ -16,9 +16,9 @@ footer{
     display: inline-block;
     vertical-align: middle;
     background-size: contain;
-    height: 24px;
-    width: 24px;
-    background-image: url("../img/department32.png");
+    height: 32px;
+    width: 32px;
+    background-image: url("../img/free-icon-team-64.png");
 }
 
 .myicon-unwrap{
@@ -26,7 +26,7 @@ footer{
     vertical-align: middle;
     background-size: contain;
     height: 24px;
-    width: 0px;
+    width: 0;
     background-image: url("../img/unwrap_icon.png");
 }
 
@@ -38,6 +38,15 @@ footer{
      width: 24px;
      background-image: url("../img/empl_2.png");
  }
+
+.myicon-employee-info{
+    display: inline-block;
+    vertical-align: middle;
+    background-size: contain;
+    height: 24px;
+    width: 24px;
+    background-image: url("../img/free-icon-info-24.png");
+}
 
 .myicon-employee-big{
     display: inline-block;
@@ -59,7 +68,7 @@ footer{
 .phone-teg{color:darkred}
 .email-teg{color:darkblue}
 
-.title-string {margin:1em auto;text-align: center;font-size: x-large;}
+.title-string {margin:1em auto;text-align: center;font-size: x-large; background-color: #f3eeec}
 
 .mark, mark {
     padding-left:0;

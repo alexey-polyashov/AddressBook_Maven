@@ -1,17 +1,37 @@
 package com.example.adrbook.dto;
 
+
 public class PersonData {
     private Long id;
     private String tabNumber;
     private String fullName;
     private String position;
     private String phoneNumber;
+    private String cellPhone;
     private String email;
 
     private String departmentName;
     private Long departmentId;
 
+    private String birthDay;
+
     public PersonData() {
+    }
+
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
     }
 
     public Long getId() {

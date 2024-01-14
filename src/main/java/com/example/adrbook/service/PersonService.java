@@ -76,6 +76,8 @@ public class PersonService {
         p.setFullName(updatePersonData.getFullName());
         p.setPosition(updatePersonData.getPosition());
         p.setEmail(updatePersonData.getEmail());
+        p.setPhoneNumber(updatePersonData.getPhoneNumber());
+        p.setCellPhone(updatePersonData.getCellPhone());
         personRepo.save(p);
         return p.getId();
     }

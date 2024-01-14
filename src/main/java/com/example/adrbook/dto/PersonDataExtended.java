@@ -1,5 +1,6 @@
 package com.example.adrbook.dto;
 
+
 public class PersonDataExtended {
     private Long id;
     private String tabNumber;
@@ -10,7 +11,34 @@ public class PersonDataExtended {
     private String managerName;
     private String managerPhoneNumber;
 
+    private String managerCellPhone;
 
+    private String cellPhone;
+    private String birthDay;
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public String getManagerCellPhone() {
+        return managerCellPhone;
+    }
+
+    public void setManagerCellPhone(String managerCellPhone) {
+        this.managerCellPhone = managerCellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
 
     private String managerEmail;
     private String departmentName;

@@ -1,15 +1,36 @@
 package com.example.adrbook.dto;
 
+import java.sql.Date;
+
 public class NewPersonData {
     private String tabNumber;
     private String fullName;
     private String position;
     private String phoneNumber;
+    private String cellPhone;
+    private Date birthDay;
+
     private String email;
     private Long departmentId;
 
     public String getTabNumber() {
         return tabNumber;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
     }
 
     public void setTabNumber(String tabNumber) {

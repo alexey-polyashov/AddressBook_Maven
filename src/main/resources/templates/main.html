@@ -30,11 +30,14 @@
             </span>
             <ul th:unless="${#lists.isEmpty(child.getEmployees())}"  class="nomarkers">
                 <li th:each="empl : ${child.getEmployees()}" th:inline="text" class="employee" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${empl.getId()}">
-                    <span class="myicon-employee"></span>&nbsp;<span>[[${empl.getFullName()}]]</span>
-                    - <span>[[${empl.getPosition()}]]</span>
-                    (<span class="phone-teg contact-teg"> тел: [[${empl.getPhoneNumber()}]] ;</span>
-                     <span class="email-teg contact-teg"> email: <a href="mailto:[[${empl.getEmail()}]]">[[${empl.getEmail()}]]</a></span>
-                    <span>)</span>
+                    <span class="employee-info">
+                        <span class="myicon-employee"></span>&nbsp<span>[[${empl.getFullName()}]]</span>
+                        - <span>[[${empl.getPosition()}]]</span>
+                        (<span class="phone-teg contact-teg"> тел: [[${#strings.isEmpty(empl.getPhoneNumber()) ? empl.getCellPhone() : empl.getPhoneNumber()}]] ;</span>
+                        <span class="email-teg contact-teg"> email: <a href="mailto:[[${empl.getEmail()}]]">[[${empl.getEmail()}]]</a></span>
+                        <span>)</span>
+                        <span class="myicon-employee-info"></span>
+                    </span>
                 </li>
             </ul>
             <ul th:replace="this::fragment_node(${child},${child.getId()})"></ul>

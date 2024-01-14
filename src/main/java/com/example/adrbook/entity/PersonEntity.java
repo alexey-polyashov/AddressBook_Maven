@@ -3,6 +3,8 @@ package com.example.adrbook.entity;
 import com.example.adrbook.utility.DataType;
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 public class PersonEntity {
 
@@ -30,10 +32,30 @@ public class PersonEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "cell_phone")
+    private String cellPhone;
+
     @Column
     private String email;
+    private Date birthDay;
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
 
     public PersonEntity() {
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
     }
 
     public Long getId() {
@@ -136,6 +158,15 @@ public class PersonEntity {
             return "";
         }
         return manager.getPhoneNumber();
+    }
+
+
+    public String getManagerCellPhone() {
+        PersonEntity manager = getManager();
+        if (manager == null) {
+            return "";
+        }
+        return manager.getCellPhone();
     }
 
     public String getManagerEmail() {

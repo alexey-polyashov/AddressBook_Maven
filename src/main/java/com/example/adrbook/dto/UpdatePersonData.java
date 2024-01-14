@@ -1,11 +1,33 @@
 package com.example.adrbook.dto;
 
+import java.sql.Date;
+
 public class UpdatePersonData {
     private Long id;
     private String tabNumber;
     private String fullName;
     private String position;
     private String phoneNumber;
+    private String cellPhone;
+
+    private Date birthDay;
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+
     private String email;
     private Long departmentId;
 
