@@ -31,8 +31,10 @@
             <ul th:unless="${#lists.isEmpty(child.getEmployees())}"  class="nomarkers">
                 <li th:each="empl : ${child.getEmployees()}" th:inline="text" class="employee" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${empl.getId()}">
                     <span class="employee-info">
-                        <span class="myicon-employee"></span>&nbsp<span>[[${empl.getFullName()}]]</span>
-                        - <span>[[${empl.getPosition()}]]</span>
+                        <span class="myicon-employee"></span>&nbsp
+                        <span  th:classappend="${empl.getManager()}? 'manager-lightning'">
+                            <span>[[${empl.getFullName()}]]</span> - <span>[[${empl.getPosition()}]]</span>
+                        </span>
                         (<span class="phone-teg contact-teg"> тел: [[${#strings.isEmpty(empl.getPhoneNumber()) ? empl.getCellPhone() : empl.getPhoneNumber()}]] ;</span>
                         <span class="email-teg contact-teg"> email: <a href="mailto:[[${empl.getEmail()}]]">[[${empl.getEmail()}]]</a></span>
                         <span>)</span>

@@ -19,6 +19,7 @@ public abstract class PersonEntityMapper {
     @Mapping(target = "departmentName", expression = "java(p.getDepartment().getName())")
     @Mapping(target = "departmentId", expression = "java(p.getDepartment().getId())")
     @Mapping(target = "birthDay", source = "birthDay", dateFormat = "dd MMMM")
+    @Mapping(target = "manager", expression = "java(p.isManager())")
     public abstract PersonData toPersonData(PersonEntity p);
 
     @Mapping(target = "managerName", expression = "java(p.getManagerFullName())")
@@ -28,6 +29,7 @@ public abstract class PersonEntityMapper {
     @Mapping(target = "departmentName", expression = "java(p.getDepartment().getName())")
     @Mapping(target = "departmentId", expression = "java(p.getDepartment().getId())")
     @Mapping(target = "birthDay", source = "birthDay", dateFormat = "dd MMMM")
+    @Mapping(target = "manager", expression = "java(p.isManager())")
     public abstract PersonDataExtended toPersonDataExtended(PersonEntity p);
 
     @Mapping(target="dataType", expression="java(com.example.adrbook.utility.DataType.PERSON)")

@@ -43,6 +43,15 @@ public class PersonDataExtended {
     private String managerEmail;
     private String departmentName;
     private Long departmentId;
+    private Boolean manager;
+
+    public Boolean getManager() {
+        return manager;
+    }
+
+    public void setManager(Boolean manager) {
+        this.manager = manager;
+    }
 
     public PersonDataExtended() {
     }

@@ -14,8 +14,17 @@ public class PersonData {
     private Long departmentId;
 
     private String birthDay;
+    private Boolean manager;
 
     public PersonData() {
+    }
+
+    public Boolean getManager() {
+        return manager;
+    }
+
+    public void setManager(Boolean manager) {
+        this.manager = manager;
     }
 
     public String getBirthDay() {

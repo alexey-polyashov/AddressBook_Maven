@@ -58,12 +58,17 @@ footer{
 }
 
 .modal-header{background: lightgray;}
+.modal-dialog {
+    max-width: 60%;
+}
+
 
 .department {font-weight: bold}
 .department:hover {background: #f9f1ed}
 .department-head {font-weight: lighter; font-style: italic}
 .employee {font-weight: lighter}
 .employee:hover {background: #e9e9e9}
+.manager-lightning {font-style:italic; font-weight: 500; color:darkred}
 .contact-teg{}
 .phone-teg{color:darkred}
 .email-teg{color:darkblue}

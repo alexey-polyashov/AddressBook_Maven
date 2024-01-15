@@ -4,6 +4,7 @@ import com.example.adrbook.utility.DataType;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Optional;
 
 @Entity
 public class PersonEntity {
@@ -132,10 +133,11 @@ public class PersonEntity {
             } else {
                 break;
             }
-            if(manager == this){
+            if(manager == this || manager==null){
                 manager=null;
-                if(currDep.getParent().isPresent()) {
-                    currDep = currDep.getParent().get();
+                Optional<Department> tempDep = currDep.getParent();
+                if(tempDep.isPresent()) {
+                    currDep = tempDep.get();
                 }else{
                     break;
                 }
@@ -175,6 +177,10 @@ public class PersonEntity {
             return "";
         }
         return manager.getEmail();
+    }
+
+    public Boolean isManager(){
+        return this.getDepartment().getHead().orElse(null) == this;
     }
 
 }
