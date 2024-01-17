@@ -1,8 +1,8 @@
 package com.example.adrbook.entity;
 
 import com.example.adrbook.utility.DataType;
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 

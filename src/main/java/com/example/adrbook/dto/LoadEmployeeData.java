@@ -2,8 +2,7 @@ package com.example.adrbook.dto;
 
 import java.sql.Date;
 
-public class UpdatePersonData {
-    private Long id;
+public class LoadEmployeeData {
     private String tabNumber;
     private String fullName;
     private String position;
@@ -11,31 +10,7 @@ public class UpdatePersonData {
     private String cellPhone;
     private Date birthDay;
     private String email;
-    private Long departmentId;
-
-    public String getCellPhone() {
-        return cellPhone;
-    }
-
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    public void setCellPhone(String cellPhone) {
-        this.cellPhone = cellPhone;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long departmentCode;
 
     public String getTabNumber() {
         return tabNumber;
@@ -69,6 +44,22 @@ public class UpdatePersonData {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -77,14 +68,14 @@ public class UpdatePersonData {
         this.email = email;
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public Long getDepartmentCode() {
+        return departmentCode;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartmentCode(Long departmentCode) {
+        this.departmentCode = departmentCode;
     }
 
-    public UpdatePersonData() {
+    public LoadEmployeeData() {
     }
 }

@@ -1,7 +1,7 @@
 package com.example.adrbook.entity;
 
 import com.example.adrbook.utility.DataType;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.sql.Date;
 import java.util.Optional;

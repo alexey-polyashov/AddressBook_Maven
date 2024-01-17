@@ -20,6 +20,7 @@ public class GlobalExceptionHundler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody String otherException(Exception e){
+        e.printStackTrace();
         return e.toString();
     }
 

@@ -1,7 +1,8 @@
 package com.example.adrbook.utility;
 
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 @Converter(autoApply = true)
 public class DataTypeConverter implements AttributeConverter<DataType, String> {

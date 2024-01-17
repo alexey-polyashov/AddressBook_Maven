@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface DepartmentRepo extends JpaRepository<Department, Long> {
@@ -29,13 +30,17 @@ public interface DepartmentRepo extends JpaRepository<Department, Long> {
     Optional<Department> getDepartmentsAndEmployees(Long departmentId);
 
     @Query("Select d From Department d Left JOIN FETCH d.employees AS empl " +
-            " order by d.name, empl.position, empl.fullName")
-    List<Department> getDepartmentsAndEmployees();
+            " order by d.name, empl.fullName")
+    Set<Department> getDepartmentsAndEmployees();
 
     @Query("Select d From Department d" +
             " Left JOIN FETCH d.employees AS emlp " +
             " Where lower(emlp.fullName) like lower(Concat('%',:searchtext,'%')) or emlp.phoneNumber like Concat('%',:searchtext,'%')" +
-            " order by d.name, emlp.position, emlp.fullName")
-    List<Department> getDepartmentsAndEmployees(@Param("searchtext") String searchtext);
+            " order by d.name, emlp.fullName")
+    Set<Department> getDepartmentsAndEmployees(@Param("searchtext") String searchtext);
+
+    @Query("Select d From Department d Where d.head.id = :headId")
+
+    List<Department> findByHeadId(Long headId);
 
 }

@@ -1,6 +1,7 @@
 package com.example.adrbook.service;
 
 import com.example.adrbook.dto.*;
+import com.example.adrbook.entity.Department;
 import com.example.adrbook.entity.PersonEntity;
 import com.example.adrbook.exception.NotFoundException;
 import com.example.adrbook.repo.DepartmentRepo;
@@ -40,6 +41,10 @@ public class PersonService {
                 .collect(Collectors.toList());
     }
 
+    public List<Department> findSubOrdinateDepartments(Long employeeId){
+        return departmentRepo.findByHeadId(employeeId);
+    }
+
     public List<PersonDataExtended> getAllEmployeesWithManagers() {
         return personRepo.findAll()
                 .stream()
@@ -61,7 +66,13 @@ public class PersonService {
 
     public void delete(Long personId) {
         PersonEntity p = personRepo.findPersonById(personId)
-                .orElseThrow(()->new NotFoundException("Сотрудник с id " + personId + " не найден"));
+                .orElseThrow(()->new NotFoundException("Сотрудник с id " + personId + " не найден"));        //check - is an employee a head of department
+        List<Department> subordinateDepartments = findSubOrdinateDepartments(personId);
+        for (Department d : subordinateDepartments){
+            //clear head of department
+            d.setHead(null);
+            departmentRepo.save(d);
+        }
         personRepo.delete(p);
     }
 
@@ -81,7 +92,6 @@ public class PersonService {
         personRepo.save(p);
         return p.getId();
     }
-
 
     public Long add(NewPersonData newPersonData) {
             PersonEntity newPerson = personMapper.toPerson(newPersonData);

@@ -25,18 +25,23 @@ public class DepartmentService {
     @Autowired
     private PersonEntityRepo personEntityRepo;
 
+    private List<DepartmentData> deepDepartmentsPass(Set<Department> depList, Department parent){
+        List<Department> tempDepList = new ArrayList<>(depList);
+        return deepDepartmentsPass(tempDepList, parent);
+    }
+
     private List<DepartmentData> deepDepartmentsPass(List<Department> depList, Department parent){
         List<DepartmentData> depListDto = new ArrayList<>();
         for(Department d: depList){
             if(d.getParent().orElse(null) == parent) {
                 DepartmentData depData = departmentMapper.toDepartmentData(d);
-//                depData.getEmployees().sort((s1, s2) -> {
-//                    int res = s1.getPosition().compareTo(s2.getPosition());
-//                    if(res==0){
-//                        res = s1.getFullName().compareTo(s2.getFullName());
-//                    }
-//                    return res;
-//                });
+                depData.getEmployees().sort((s1, s2) -> {
+                    int res = s2.getManager().compareTo(s1.getManager());
+                    if(res==0){
+                        res = s1.getFullName().compareTo(s2.getFullName());
+                    }
+                    return res;
+                });
                 depData.setDepartments(deepDepartmentsPass(depList, d));
                 depListDto.add(depData);
             }
@@ -69,6 +74,11 @@ public class DepartmentService {
         return depList;
     }
 
+    private List<Department> expandDepartmentsList(Set<Department> depList) {
+        List<Department> tempDepList = new ArrayList<>(depList);
+        return expandDepartmentsList(tempDepList);
+    }
+
     private List<Department> getAllParents(Department d) {
         List<Department> parents = new ArrayList<>();
         if(d.getParent().isPresent()){
@@ -94,7 +104,7 @@ public class DepartmentService {
     }
 
     public DepartmentsList getDepartmentListWithEmployees(Boolean flat){
-        List<Department> depList = departmentRepo.getDepartmentsAndEmployees();
+        Set<Department> depList = departmentRepo.getDepartmentsAndEmployees();
         DepartmentsList depListDto = new DepartmentsList();
         if(!flat) {
             depListDto.setDepartments(deepDepartmentsPass(depList, null));
@@ -107,10 +117,10 @@ public class DepartmentService {
     }
 
     public DepartmentsList getDepartmentListWithEmployees(String searchtext){
-        List<Department> depList = departmentRepo.getDepartmentsAndEmployees(searchtext);
-        expandDepartmentsList(depList);
+        Set<Department> depList = departmentRepo.getDepartmentsAndEmployees(searchtext);
+        List<Department> departmentsArrayList =  expandDepartmentsList(depList);
         DepartmentsList depListDto = new DepartmentsList();
-        depListDto.setDepartments(deepDepartmentsPass(depList, null));
+        depListDto.setDepartments(deepDepartmentsPass(departmentsArrayList, null));
         return  depListDto;
     }
 
