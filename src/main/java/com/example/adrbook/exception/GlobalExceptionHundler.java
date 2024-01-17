@@ -24,6 +24,4 @@ public class GlobalExceptionHundler {
         return e.toString();
     }
 
-
-
 }
