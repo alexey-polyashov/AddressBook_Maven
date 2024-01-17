@@ -30,8 +30,8 @@ public class DepartmentsController {
     }
 
     @GetMapping(value = "/{departmentId}", produces = "application/json")
-    DepartmentData getDepartment(@PathVariable Long departmentId,@RequestParam Boolean employees) {
-        return departmentService.getSubDepartmentsList(departmentId, employees);
+    DepartmentData getDepartment(@PathVariable Long departmentId,@RequestParam(required = false) Optional<Boolean> employees) {
+        return departmentService.getSubDepartmentsList(departmentId, employees.orElse(false));
     }
 
     @GetMapping(value = "/{departmentId}/employees", produces = "application/json")
