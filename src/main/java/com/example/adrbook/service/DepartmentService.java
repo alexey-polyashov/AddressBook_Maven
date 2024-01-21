@@ -25,24 +25,31 @@ public class DepartmentService {
     @Autowired
     private PersonEntityRepo personEntityRepo;
 
-    private List<DepartmentData> deepDepartmentsPass(Set<Department> depList, Department parent){
+    private List<DepartmentData> deepDepartmentsPass(Set<Department> depList, Department parent, boolean withEmployees){
         List<Department> tempDepList = new ArrayList<>(depList);
-        return deepDepartmentsPass(tempDepList, parent);
+        return deepDepartmentsPass(tempDepList, parent, withEmployees);
     }
 
-    private List<DepartmentData> deepDepartmentsPass(List<Department> depList, Department parent){
+    private List<DepartmentData> deepDepartmentsPass(List<Department> depList, Department parent, boolean withEmployees){
         List<DepartmentData> depListDto = new ArrayList<>();
         for(Department d: depList){
             if(d.getParent().orElse(null) == parent) {
                 DepartmentData depData = departmentMapper.toDepartmentData(d);
-                depData.getEmployees().sort((s1, s2) -> {
-                    int res = s2.getManager().compareTo(s1.getManager());
-                    if(res==0){
-                        res = s1.getFullName().compareTo(s2.getFullName());
-                    }
-                    return res;
-                });
-                depData.setDepartments(deepDepartmentsPass(depList, d));
+                if(withEmployees) {
+                    depData.getEmployees().sort((s1, s2) -> {
+                        int res = s2.isChief().compareTo(s1.isChief());
+                        if (res == 0) {
+                            res = s1.getPosition().compareTo(s2.getPosition());
+                        }
+                        if (res == 0) {
+                            res = s1.getFullName().compareTo(s2.getFullName());
+                        }
+                        return res;
+                    });
+                }else{
+                    depData.getEmployees().clear();
+                }
+                depData.setDepartments(deepDepartmentsPass(depList, d, withEmployees));
                 depListDto.add(depData);
             }
         }
@@ -94,7 +101,7 @@ public class DepartmentService {
         List<Department> depList = departmentRepo.findAll();
         DepartmentsList depListDto = new DepartmentsList();
         if(!flat) {
-            depListDto.setDepartments(deepDepartmentsPass(depList, null));
+            depListDto.setDepartments(deepDepartmentsPass(depList, null, false));
         }else{
             depListDto.setDepartments(depList.stream()
                     .map(departmentMapper::toDepartmentData)
@@ -107,7 +114,7 @@ public class DepartmentService {
         Set<Department> depList = departmentRepo.getDepartmentsAndEmployees();
         DepartmentsList depListDto = new DepartmentsList();
         if(!flat) {
-            depListDto.setDepartments(deepDepartmentsPass(depList, null));
+            depListDto.setDepartments(deepDepartmentsPass(depList, null, true));
         }else{
             depListDto.setDepartments(depList.stream()
                     .map(departmentMapper::toDepartmentData)
@@ -120,7 +127,7 @@ public class DepartmentService {
         Set<Department> depList = departmentRepo.getDepartmentsAndEmployees(searchtext);
         List<Department> departmentsArrayList =  expandDepartmentsList(depList);
         DepartmentsList depListDto = new DepartmentsList();
-        depListDto.setDepartments(deepDepartmentsPass(departmentsArrayList, null));
+        depListDto.setDepartments(deepDepartmentsPass(departmentsArrayList, null, true));
         return  depListDto;
     }
 
@@ -222,4 +229,15 @@ public class DepartmentService {
         departmentRepo.save(department);
     }
 
+    public void setHeadByTabNumber(Long departmentId, String headTabNumber) {
+        Department department = departmentRepo.findDepartmentById(departmentId)
+                .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено"));
+        PersonEntity head = null;
+        if(headTabNumber!=null) {
+            head = personEntityRepo.findPersonEntityByTabNumber(headTabNumber)
+                    .orElseThrow(() -> new NotFoundException("Руководитель с табельным номером - " + headTabNumber + " не найден"));
+        }
+        department.setHead(head);
+        departmentRepo.save(department);
+    }
 }

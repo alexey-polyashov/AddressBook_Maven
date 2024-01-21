@@ -1,20 +1,23 @@
 package com.example.adrbook.dto;
 
-
 public class PersonDataExtended {
+
     private Long id;
+    private String departmentName;
+    private Long departmentId;
     private String tabNumber;
     private String fullName;
     private String position;
     private String phoneNumber;
-    private String email;
-    private String managerName;
-    private String managerPhoneNumber;
-
-    private String managerCellPhone;
-
     private String cellPhone;
+    private String email;
+    private PersonData manager;
     private String birthDay;
+    private Boolean chief;
+    private String workSchedule;
+
+    public PersonDataExtended() {
+    }
 
     public String getCellPhone() {
         return cellPhone;
@@ -28,32 +31,8 @@ public class PersonDataExtended {
         this.birthDay = birthDay;
     }
 
-    public String getManagerCellPhone() {
-        return managerCellPhone;
-    }
-
-    public void setManagerCellPhone(String managerCellPhone) {
-        this.managerCellPhone = managerCellPhone;
-    }
-
     public void setCellPhone(String cellPhone) {
         this.cellPhone = cellPhone;
-    }
-
-    private String managerEmail;
-    private String departmentName;
-    private Long departmentId;
-    private Boolean manager;
-
-    public Boolean getManager() {
-        return manager;
-    }
-
-    public void setManager(Boolean manager) {
-        this.manager = manager;
-    }
-
-    public PersonDataExtended() {
     }
 
     public Long getId() {
@@ -104,12 +83,51 @@ public class PersonDataExtended {
         this.email = email;
     }
 
-    public String getManagerName() {
-        return managerName;
+    public Boolean isChief() {
+        return chief;
     }
 
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
+    public void setChief(Boolean chief) {
+        this.chief = chief;
+    }
+
+    public PersonData getManager() {
+        return manager;
+    }
+
+    public void setManager(PersonData manager) {
+        this.manager = manager;
+    }
+
+    public Boolean getChief() {
+        return chief;
+    }
+
+    public String getWorkSchedule() {
+        return workSchedule;
+    }
+
+    public void setWorkSchedule(String workSchedule) {
+        this.workSchedule = workSchedule;
+    }
+
+    public String getManagerName() {
+        return this.manager==null ? "" : this.manager.getFullName();
+    }
+
+    public String getManagerCellPhone() {
+        return this.manager==null ? "" : this.manager.getCellPhone();
+    }
+    public String getManagerPhoneNumber() {
+        return this.manager==null ? "" : this.manager.getPhoneNumber();
+    }
+
+    public String getManagerEmail() {
+        return this.manager==null ? "" : this.manager.getEmail();
+    }
+
+    public String getManagerPosition() {
+        return this.manager==null ? "" : this.manager.getPosition();
     }
 
     public String getDepartmentName() {
@@ -127,19 +145,4 @@ public class PersonDataExtended {
     public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
     }
-    public String getManagerPhoneNumber() {
-        return managerPhoneNumber;
-    }
-
-    public void setManagerPhoneNumber(String managerPhoneNumber) {
-        this.managerPhoneNumber = managerPhoneNumber;
-    }
-
-    public String getManagerEmail() {
-        return managerEmail;
-    }
-
-    public void setManagerEmail(String managerEmail) {
-        this.managerEmail = managerEmail;
-    }
-}
+ }

@@ -10,15 +10,16 @@ public class DepartmentData {
     private String parentName;
     private String parentCode;
     private PersonData head;
+
     List<DepartmentData> departments;
-    List<PersonData> employees;
+    List<PersonData> employees2;
 
     public List<PersonData> getEmployees() {
-        return employees;
+        return employees2;
     }
 
     public void setEmployees(List<PersonData> employees) {
-        this.employees = employees;
+        this.employees2 = employees;
     }
 
     public void setId(Long id) {

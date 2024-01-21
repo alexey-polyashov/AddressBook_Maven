@@ -10,29 +10,42 @@ footer{
     margin-top:60px;
 }
 
-.row-group{
-    background-size: 32px 32px;
-    background-position: center;
-    background-repeat: no-repeat;
+.nomarkers {list-style-type: none;}
+
+.myicon-folder{
+    display: inline-block;
+    vertical-align: middle;
+    background-size: contain;
+    height: 32px;
     width: 32px;
+    background-image: url("../img/free-icon-team-64.png");
 }
 
-.group-unwrap{
-    background-image: url("../img/icon-unwrap.png");
+.myicon-unwrap{
+    display: inline-block;
+    vertical-align: middle;
+    background-size: contain;
+    height: 24px;
+    width: 0;
+    background-image: url("../img/unwrap_icon.png");
 }
 
-.group-wrap{
-    background-image: url("../img/icon-wrap.png");
-}
+.myicon-employee{
+    display: inline-block;
+    vertical-align: middle;
+    background-size: contain;
+     height: 24px;
+     width: 24px;
+     background-image: url("../img/empl_2.png");
+ }
 
-.column-number{
-    width: 1px;
-    white-space: nowrap
-}
-
-.column-phone{
-    width: 1px;
-    white-space: nowrap
+.myicon-employee-info{
+    display: inline-block;
+    vertical-align: middle;
+    background-size: contain;
+    height: 24px;
+    width: 24px;
+    background-image: url("../img/free-icon-info-24.png");
 }
 
 .myicon-employee-big{
@@ -50,12 +63,15 @@ footer{
 }
 
 
-.department-row {font-weight: bold}
-.department-row:hover {background: #f9f1ed}
-.employee-row:hover {background: #e9e9e9}
+.department {font-weight: bold}
+.department:hover {background: #f9f1ed}
+.department-head {font-weight: lighter; font-style: italic}
+.employee {font-weight: lighter}
+.employee:hover {background: #e9e9e9}
+.manager-lightning {font-style:italic; font-weight: 500; color:darkred}
+.contact-teg{}
 .phone-teg{color:darkred}
 .email-teg{color:darkblue}
-.employee-link{color:#717171}
 
 .title-string {margin:1em auto;text-align: center;font-size: x-large; background-color: #f3eeec}
 

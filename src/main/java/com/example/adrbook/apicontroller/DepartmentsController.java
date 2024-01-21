@@ -17,7 +17,7 @@ public class DepartmentsController {
 
     @GetMapping(value = "/", produces = "application/json")
     DepartmentsList getAllDepartments(@RequestParam(required = false) Optional<Boolean> employees, @RequestParam(required = false) Optional<Boolean> flat) {
-        if(employees.orElse(false)){
+        if(!employees.orElse(false)){
             return departmentService.getDepartmentList(flat.orElse(false));
         }else {
             return departmentService.getDepartmentListWithEmployees(flat.orElse(false));
@@ -59,9 +59,14 @@ public class DepartmentsController {
         return departmentService.add(newDepartmentData);
     }
 
-    @PostMapping(value="/{departmentId}/head/{headId}", produces = "application/json")
+    @PutMapping(value="/{departmentId}/head/{headId}", produces = "application/json")
     void updateDepartmentHead(@PathVariable Long departmentId, @PathVariable Long headId){
         departmentService.setHead(departmentId, headId);
+    }
+
+    @PutMapping(value="/{departmentId}/headtabnumber/{headTabNumber}", produces = "application/json")
+    void updateDepartmentHeadByTabNumber(@PathVariable Long departmentId, @PathVariable String headTabNumber){
+        departmentService.setHeadByTabNumber(departmentId, headTabNumber);
     }
 
 }

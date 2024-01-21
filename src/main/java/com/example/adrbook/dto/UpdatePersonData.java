@@ -12,6 +12,15 @@ public class UpdatePersonData {
     private Date birthDay;
     private String email;
     private Long departmentId;
+    private String workSchedule;
+
+    public String getWorkSchedule() {
+        return workSchedule;
+    }
+
+    public void setWorkSchedule(String workSchedule) {
+        this.workSchedule = workSchedule;
+    }
 
     public String getCellPhone() {
         return cellPhone;

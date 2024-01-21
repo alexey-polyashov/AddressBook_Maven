@@ -13,32 +13,27 @@ public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
-
     @Column(name = "data_type", columnDefinition = "varchar(255) default 'P'")
     private DataType dataType;
-
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
-
     @Column(name = "tab_number")
     private String tabNumber;
-
     @Column(name = "full_name")
     private String fullName;
-
     @Column
     private String position;
-
     @Column(name = "phone_number")
     private String phoneNumber;
-
     @Column(name = "cell_phone")
     private String cellPhone;
-
     @Column
     private String email;
+    @Column
     private Date birthDay;
+    @Column
+    private String workSchedule;
 
     public Date getBirthDay() {
         return birthDay;
@@ -123,6 +118,13 @@ public class PersonEntity {
         this.email = email;
     }
 
+    public String getWorkSchedule() {
+        return workSchedule;
+    }
+
+    public void setWorkSchedule(String workSchedule) {
+        this.workSchedule = workSchedule;
+    }
 
     public PersonEntity getManager() {
         Department currDep = this.getDepartment();
@@ -144,39 +146,6 @@ public class PersonEntity {
             }
         }
         return manager;
-    }
-
-    public String getManagerFullName() {
-        PersonEntity manager = getManager();
-        if (manager == null) {
-            return "";
-        }
-        return manager.getFullName();
-    }
-
-    public String getManagerPhoneNumber() {
-        PersonEntity manager = getManager();
-        if (manager == null) {
-            return "";
-        }
-        return manager.getPhoneNumber();
-    }
-
-
-    public String getManagerCellPhone() {
-        PersonEntity manager = getManager();
-        if (manager == null) {
-            return "";
-        }
-        return manager.getCellPhone();
-    }
-
-    public String getManagerEmail() {
-        PersonEntity manager = getManager();
-        if (manager == null) {
-            return "";
-        }
-        return manager.getEmail();
     }
 
     public Boolean isManager(){

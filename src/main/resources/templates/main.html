@@ -10,42 +10,59 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container" id="addressData">
+<div class="container-fluid h-100" id="addressData">
 
-    <p></p>
-    <h4>Список сотрудников по подразделениям</h4>
-    <p></p>
-    <div align="center" th:if="${#lists.isEmpty(departmentList.getDepartments())}" style="margin:auto; padding:3em 0;">
+    <!--    <p></p>-->
+    <!--    <h4>Список сотрудников по подразделениям</h4>-->
+    <!--    <p></p>-->
+    <div class="justify-content-center align-items-center" th:if="${#lists.isEmpty(departmentList.getDepartments())}" style="margin:auto; padding:3em 0;">
         <p>По запросу ничего не найдено...</p>
         <p>Попробуйте изменить строку поиска.</p>
     </div>
-    <ul th:fragment="fragment_node(departmentList, currentId)" th:unless="${#lists.isEmpty(departmentList.getDepartments())}" class="nomarkers">
-        <li th:each="child : ${departmentList.getDepartments()}" th:inline="text" data-bs-toggle="no-modal" class="department-describe">
-            <span class="department-presentation" onclick="rollDepartment(event, $(this))">
-                <span class="myicon-folder"></span>
-                <span class="myicon-unwrap"></span>
-                <span  class="department">&nbsp;[[${child.getName()}]]
-                    <span class="department-head"> ( Руководитель: [[${child.getHeadPresentation()}]] )</span>
-                </span>
-            </span>
-            <ul th:unless="${#lists.isEmpty(child.getEmployees())}"  class="nomarkers">
-                <li th:each="empl : ${child.getEmployees()}" th:inline="text" class="employee" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${empl.getId()}">
-                    <span class="employee-info">
-                        <span class="myicon-employee"></span>&nbsp
-                        <span  th:classappend="${empl.getManager()}? 'manager-lightning'">
-                            <span>[[${empl.getFullName()}]]</span> - <span>[[${empl.getPosition()}]]</span>
-                        </span>
-                        (<span class="phone-teg contact-teg"> тел: [[${#strings.isEmpty(empl.getPhoneNumber()) ? empl.getCellPhone() : empl.getPhoneNumber()}]] ;</span>
-                        <span class="email-teg contact-teg"> email: <a href="mailto:[[${empl.getEmail()}]]">[[${empl.getEmail()}]]</a></span>
-                        <span>)</span>
-                        <span class="myicon-employee-info"></span>
-                    </span>
-                </li>
-            </ul>
-            <ul th:replace="this::fragment_node(${child},${child.getId()})"></ul>
-        </li>
 
-    </ul>
+    <table class="table table-bordered border-secondary">
+        <thead>
+        <tr>
+            <th scope="col">+/-</th>
+            <th scope="col" class = "column-number">№</th>
+            <th scope="col">Подразделение</th>
+            <th scope="col">Должность</th>
+            <th scope="col">Сотрудник</th>
+            <th scope="col">График</th>
+            <th scope="col">Внутренний тел.</th>
+            <th scope="col">Мобильный тел.</th>
+        </tr>
+        </thead>
+        <tbody th:with="level=0, parentDepartmentClass=''">
+        <th:block th:fragment="sudepartments_node(departmentList, currentId, level, parentDepartmentClass)" th:each="child : ${departmentList.getDepartments()}">
+            <tr class="department-row" th:classappend="${parentDepartmentClass}" rolled=false>
+                <td class = "row-group group-wrap"  onclick="rollDepartment(event, $(this))"  th:attr="department-class = ${myCounter.getDepartmentClass(child)}"></td>
+                <td class = "column-number" th:text="${myCounter.incrementAndGet()}"></td>
+                <td th:text="${child.getName()}" th:style="'padding-left:' + ${level*10} + 'px'"></td>
+                <td th:text="${child.getHead()?.getPosition()}"></td>
+                <td><a class="employee-link" th:text="${child.getHead()?.getFullName()}" href="#" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${child.getHead()?.getId()}"></a></td>
+                <td th:text="${child.getHead()?.getWorkSchedule()}"></td>
+                <td class = "column-phone" th:text="${child.getHead()?.getPhoneNumber()}"></td>
+                <td class = "column-phone" th:text="${child.getHead()?.getCellPhone()}"></td>
+            </tr>
+            <th:block th:each="empl : ${child.getEmployees()}">
+                <th:block th:unless="${child.getHead()?.getId()==empl.getId()}">
+                    <tr class="employee-row" th:classappend="${parentDepartmentClass} + ' ' + ${myCounter.getDepartmentClass(child)}">
+                        <td></td>
+                        <td class = "column-number" th:text="${myCounter.incrementAndGet()}"></td>
+                        <td th:text="${child.getName()}"  th:style="'padding-left:' + ${level*(10*2)} + 'px'"></td>
+                        <td th:text="${empl.getPosition()}"></td>
+                        <td ><a class="employee-link" th:text="${empl.getFullName()}" href="#" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${empl.getId()}"></a></td>
+                        <td th:text="${empl.getWorkSchedule()}"></td>
+                        <td th:text="${#strings.isEmpty(empl.getPhoneNumber()) ? 'нет' : empl.getPhoneNumber()}"></td>
+                        <td th:text="${#strings.isEmpty(empl.getCellPhone()) ? 'нет' : empl.getCellPhone()}"></td>
+                    </tr>
+                </th:block>
+            </th:block>
+            <th:block th:replace="this::sudepartments_node(${child},${child.getId()}, ${level+1}, ${parentDepartmentClass} + ' ' + ${myCounter.getDepartmentClass(child)})"></th:block>
+        </th:block>
+        </tbody>
+    </table>
 
 </div>
 
@@ -122,18 +139,50 @@
         $("#addressData").unmark().mark(searchedText);
     });
 
+
     function rollDepartment(event, element){
-        let rolled = element.attr('rolled');
+        let rolled = element.parent().attr("rolled");
         event.stopPropagation();
         if(event.delegateTarget!=null) return;
-        if(rolled==null || rolled===false){
-            element.siblings().slideUp(500);
-            element.find(".myicon-unwrap").width(24).fadeIn(500);
-            element.attr('rolled', true);
+        let groupId = element.attr('department-class');
+        if(rolled==null || rolled===false || rolled=="false"){
+            element.removeClass("group-wrap").addClass("group-unwrap");
+            element.parent().attr("rolled", true);
+            $("." + groupId).each(function(){
+                let subElement = $(this);
+                if(subElement==element.parent()) {
+                    return;
+                }
+                subElement.fadeOut(200);
+                let wrapCount = subElement.attr("wrapcount");
+                if(wrapCount==null || wrapCount==0){
+                    subElement.attr("wrapCount", 1);
+                }else{
+                    subElement.attr("wrapCount", ++wrapCount);
+                }
+            });
         }else{
-            element.siblings().slideDown(500);
-            element.find(".myicon-unwrap").fadeOut(500);
-            element.removeAttr('rolled');
+            element.removeClass("group-unwrap")
+                .addClass("group-wrap")
+                .parent()
+                .attr("rolled", false);
+            $("." + groupId).each(function(idx){
+                let subElement = $(this);
+                if(subElement==element.parent()){
+                    return;
+                }
+                let wrapCount = subElement.attr("wrapcount");
+                if(wrapCount==null || wrapCount<=1){
+                    subElement.fadeIn(200);
+                    subElement.attr("wrapCount", "0");
+                }else{
+                    subElement.attr("wrapCount", --wrapCount);
+                }
+            })
+            //fadeIn(200)//.show();
+            // element.removeClass("group-unwrap").addClass("group-wrap");
+            //$("." + groupId + " .group-unwrap").removeClass("group-unwrap").addClass("group-wrap");
+            // element.removeAttr('rolled');
         }
     }
 

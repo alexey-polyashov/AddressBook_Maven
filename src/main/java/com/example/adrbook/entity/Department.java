@@ -13,26 +13,19 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
-
     @Column(columnDefinition = "varchar(255) default 'DEP'")
     private DataType data_type;
-
     @Column
     private String code;
-
     @Column
     private String name;
-
     @ManyToOne
     private Department parent;
-
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<PersonEntity> employees;
-
     @OneToOne
     @JoinColumn(name = "head_id")
     private PersonEntity head;
-
     @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Department> departments;
 

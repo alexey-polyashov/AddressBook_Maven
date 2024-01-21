@@ -2,6 +2,7 @@ package com.example.adrbook.dto;
 
 
 public class PersonData {
+
     private Long id;
     private String tabNumber;
     private String fullName;
@@ -9,22 +10,29 @@ public class PersonData {
     private String phoneNumber;
     private String cellPhone;
     private String email;
-
     private String departmentName;
     private Long departmentId;
-
     private String birthDay;
-    private Boolean manager;
+    private Boolean chief;
+    private String workSchedule;
 
     public PersonData() {
     }
 
-    public Boolean getManager() {
-        return manager;
+    public String getWorkSchedule() {
+        return workSchedule;
     }
 
-    public void setManager(Boolean manager) {
-        this.manager = manager;
+    public void setWorkSchedule(String workSchedule) {
+        this.workSchedule = workSchedule;
+    }
+
+    public Boolean isChief() {
+        return chief;
+    }
+
+    public void setChief(Boolean chief) {
+        this.chief = chief;
     }
 
     public String getBirthDay() {

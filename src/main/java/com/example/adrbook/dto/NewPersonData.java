@@ -3,18 +3,27 @@ package com.example.adrbook.dto;
 import java.sql.Date;
 
 public class NewPersonData {
+
     private String tabNumber;
     private String fullName;
     private String position;
     private String phoneNumber;
     private String cellPhone;
     private Date birthDay;
-
     private String email;
     private Long departmentId;
+    private String workSchedule;
 
     public String getTabNumber() {
         return tabNumber;
+    }
+
+    public String getWorkSchedule() {
+        return workSchedule;
+    }
+
+    public void setWorkSchedule(String workSchedule) {
+        this.workSchedule = workSchedule;
     }
 
     public String getCellPhone() {
