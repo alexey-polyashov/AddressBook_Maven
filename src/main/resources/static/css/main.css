@@ -10,11 +10,14 @@ footer{
     margin-top:60px;
 }
 
+.main-block {
+    padding-top: 75px;
+}
+
 .row-group{
-    background-size: 32px 32px;
-    background-position: center;
+    background-size: 1.5em 1.5em;
+    background-position: 0.2em center;
     background-repeat: no-repeat;
-    width: 32px;
 }
 
 .group-unwrap{
@@ -49,6 +52,15 @@ footer{
     max-width: 60%;
 }
 
+.table thead th {
+    text-align: center;
+    background-color: #F26C21;
+    color: darkslategrey;
+}
+
+.table tbody td {
+    vertical-align: middle;
+}
 
 .department-row {font-weight: bold}
 .department-row:hover {background: #f9f1ed}

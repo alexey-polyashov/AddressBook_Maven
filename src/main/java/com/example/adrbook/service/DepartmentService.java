@@ -132,6 +132,7 @@ public class DepartmentService {
     }
 
     public DepartmentData getSubDepartmentsList(Long departmentId, Boolean showEmployees){
+
         Department department = new Department();
         departmentRepo.findDepartmentById(departmentId)
                 .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено"));

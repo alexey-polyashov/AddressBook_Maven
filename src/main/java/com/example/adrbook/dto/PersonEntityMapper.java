@@ -8,7 +8,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Objects;
 
 @Mapper(componentModel = "spring", uses={PersonEntityMapper.class})
 public abstract class PersonEntityMapper {

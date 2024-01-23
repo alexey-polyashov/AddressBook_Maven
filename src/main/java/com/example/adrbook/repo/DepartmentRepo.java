@@ -33,9 +33,13 @@ public interface DepartmentRepo extends JpaRepository<Department, Long> {
             " order by d.name, empl.position, empl.fullName")
     Set<Department> getDepartmentsAndEmployees();
 
-    @Query("Select d From Department d" +
-            " Left JOIN FETCH d.employees AS empl " +
-            " Where lower(empl.fullName) like lower(Concat('%',:searchtext,'%')) or empl.phoneNumber like Concat('%',:searchtext,'%') or empl.cellPhone like Concat('%',:searchtext,'%')" +
+    @Query("Select d From Department d " +
+            " JOIN FETCH d.employees AS empl " +
+            " Where lower(empl.fullName) like lower(Concat('%',:searchtext,'%'))" +
+            "   or lower(empl.position) like lower(Concat('%',:searchtext,'%'))" +
+            "   or empl.phoneNumber like Concat('%',:searchtext,'%')" +
+            "   or empl.cellPhone like Concat('%',:searchtext,'%')" +
+            "   or lower(d.name) like lower(Concat('%',:searchtext,'%'))" +
             " order by d.name, empl.position, empl.fullName")
     Set<Department> getDepartmentsAndEmployees(@Param("searchtext") String searchtext);
 
