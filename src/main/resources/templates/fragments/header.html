@@ -22,10 +22,16 @@
             <a class="navbar-brand" href="#">
                 <img th:src="@{/img/logo.png}" height="40px" alt="" class="d-inline-block align-text-middle">
             </a>
-            <h3>Телефонный справочник "АО Микрон"</h3>
+            <div>
+                <h3>Телефонный справочник "АО Микрон"</h3>
+                <div th:text="'по состоянию на ' + ${updateDate}" class="update-info" >
+                </div>
+            </div>
             <form class="d-flex" method="get" action="./">
-                <input name="searchtext" class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск" th:value="${requestParams.get('searchtext')!=null?requestParams.get('searchtext')[0]:''}">
-                <button class="btn btn-outline-success" type="submit">Поиск</button>
+                <input autofocus id="searcfield" name="searchtext" class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск" th:value="${requestParams.get('searchtext')!=null?requestParams.get('searchtext')[0]:''}"
+                    onkeypress="if(event.keyCode === 13)$('#submitSearch').click()">
+                <button id=#submitSearch class="btn btn-outline-success" type="submit">Поиск</button>
+                <button class="btn btn-outline-secondary" type="submit" onclick="$('#searcfield').val('')">Х</button>
 <!--                <div class="form_toggle">-->
 <!--                    <div class="form_toggle-item item-1">-->
 <!--                        <input id="fid-1" type="radio" name="radio" value="true">-->

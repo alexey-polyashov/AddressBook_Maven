@@ -24,6 +24,8 @@ public class DepartmentService {
     private PersonEntityMapper personMapper;
     @Autowired
     private PersonEntityRepo personEntityRepo;
+    @Autowired
+    private ServiceInfoService serviceInfoService;
 
     private List<DepartmentData> deepDepartmentsPass(Set<Department> depList, Department parent, boolean withEmployees){
         List<Department> tempDepList = new ArrayList<>(depList);
@@ -124,7 +126,7 @@ public class DepartmentService {
     }
 
     public DepartmentsList getDepartmentListWithEmployees(String searchtext){
-        Set<Department> depList = departmentRepo.getDepartmentsAndEmployees(searchtext);
+        Set<Department> depList = departmentRepo.getDepartmentsAndEmployees(searchtext.toLowerCase());
         List<Department> departmentsArrayList =  expandDepartmentsList(depList);
         DepartmentsList depListDto = new DepartmentsList();
         depListDto.setDepartments(deepDepartmentsPass(departmentsArrayList, null, true));
@@ -176,11 +178,13 @@ public class DepartmentService {
         Department department = departmentRepo.findDepartmentById(departmentId)
                 .orElseThrow(()->new NotFoundException("Подразделение с id '" + departmentId + "' не найдено"));
         departmentRepo.delete(department);
+        serviceInfoService.setUpdateData();
     }
 
     public Long add(NewDepartmentData newDepartmentData){
         Department newDepartment = departmentMapper.toDepartment(newDepartmentData);
         departmentRepo.save(newDepartment);
+        serviceInfoService.setUpdateData();
         return newDepartment.getId();
     }
 
@@ -195,13 +199,16 @@ public class DepartmentService {
 
         Long id = departmentData.getId();
         PersonEntity head = null;
+        Department parent = null;
         Long parentId = departmentData.getParentId();
         Long headId = departmentData.getHeadId();
 
         Department department = departmentRepo.findDepartmentById(id)
                 .orElseThrow(()->new NotFoundException("Подразделение с id '" + id + "' не найдено"));
-        Department parent = departmentRepo.findDepartmentById(parentId)
-                .orElseThrow(()->new NotFoundException("Подразделение с id '" + parentId + "' не найдено"));
+        if(parentId!=null) {
+            parent = departmentRepo.findDepartmentById(parentId)
+                    .orElseThrow(() -> new NotFoundException("Родительское подразделение с id '" + parentId + "' не найдено"));
+        }
         if(headId!=null) {
             head = personEntityRepo.findPersonById(headId)
                     .orElseThrow(() -> new NotFoundException("Руководитель с id - " + headId + " не найден"));
@@ -214,6 +221,7 @@ public class DepartmentService {
         department.setHead(head);
 
         departmentRepo.save(department);
+        serviceInfoService.setUpdateData();
 
         return department.getId();
     }
@@ -228,6 +236,7 @@ public class DepartmentService {
         }
         department.setHead(head);
         departmentRepo.save(department);
+        serviceInfoService.setUpdateData();
     }
 
     public void setHeadByTabNumber(Long departmentId, String headTabNumber) {
@@ -240,5 +249,6 @@ public class DepartmentService {
         }
         department.setHead(head);
         departmentRepo.save(department);
+        serviceInfoService.setUpdateData();
     }
 }

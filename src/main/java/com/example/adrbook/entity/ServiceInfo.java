@@ -1,7 +1,7 @@
 package com.example.adrbook.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 public class ServiceInfo {
@@ -9,7 +9,7 @@ public class ServiceInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long id;
-    private Date updateDate;
+    private Timestamp updateDate;
 
 
     public ServiceInfo() {
@@ -19,11 +19,11 @@ public class ServiceInfo {
         return id;
     }
 
-    public Date getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 }

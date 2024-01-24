@@ -20,6 +20,8 @@ public class PersonService {
     private PersonEntityMapper personMapper;
     @Autowired
     private DepartmentRepo departmentRepo;
+    @Autowired
+    private ServiceInfoService serviceInfoService;
 
     public PersonData getPersonInfo(Long personId) {
         return personMapper.toPersonData(personRepo.findPersonById(personId).orElseThrow(
@@ -74,6 +76,7 @@ public class PersonService {
             departmentRepo.save(d);
         }
         personRepo.delete(p);
+        serviceInfoService.setUpdateData();
     }
 
     public Long update(UpdatePersonData updatePersonData) {
@@ -90,12 +93,14 @@ public class PersonService {
         p.setPhoneNumber(updatePersonData.getPhoneNumber());
         p.setCellPhone(updatePersonData.getCellPhone());
         personRepo.save(p);
+        serviceInfoService.setUpdateData();
         return p.getId();
     }
 
     public Long add(NewPersonData newPersonData) {
             PersonEntity newPerson = personMapper.toPerson(newPersonData);
             personRepo.save(newPerson);
+            serviceInfoService.setUpdateData();
             return newPerson.getId();
     }
 }

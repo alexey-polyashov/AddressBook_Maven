@@ -2,6 +2,7 @@ package com.example.adrbook.httpcontroller;
 
 import com.example.adrbook.service.DepartmentService;
 import com.example.adrbook.service.PersonService;
+import com.example.adrbook.service.ServiceInfoService;
 import com.example.adrbook.utility.MyCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ public class mainpage {
     private DepartmentService departmentService;
     @Autowired
     private PersonService personService;
+    @Autowired
+    private ServiceInfoService serviceInfoService;
 
     @ModelAttribute("requestParams")
     public Map<String,String[]> contextPath(final HttpServletRequest request) {
@@ -29,6 +32,7 @@ public class mainpage {
         MyCounter myCounter = new MyCounter();
         myCounter.setCounter(0L);
         model.addAttribute("myCounter", myCounter);
+        model.addAttribute("updateDate", serviceInfoService.getUpdateData("HH:mm dd.MM.yyyy"));
         if(searchtext!=null && !searchtext.isEmpty()){
             model.addAttribute("departmentList", departmentService.getDepartmentListWithEmployees(searchtext));
         }else {

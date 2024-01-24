@@ -10,18 +10,18 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="main-block">
+<div id="main-block">
 
 <div class="container-fluid h-100" id="addressData">
 
     <table class="table table-bordered border-secondary">
-        <thead>
+        <thead id="table-head">
         <tr>
             <th scope="col" class = "column-number">№</th>
             <th scope="col">Подразделение</th>
             <th scope="col">Должность</th>
             <th scope="col">Сотрудник</th>
-            <th scope="col">График</th>
+<!--            <th scope="col">График</th>-->
             <th scope="col">Тел.</th>
             <th scope="col">Мобильный</th>
         </tr>
@@ -34,7 +34,7 @@
                     th:text="${child.getName()}" th:style="'padding-left:' + ${0.5 + level*1.5} + 'em; background-position-x:' + ${(level-1)*1.5+0.2} + 'em'"></td>
                 <td th:text="${child.getHead()?.getPosition()}"></td>
                 <td><a class="employee-link" th:text="${child.getHead()?.getFullName()}" href="#" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${child.getHead()?.getId()}"></a></td>
-                <td th:text="${child.getHead()?.getWorkSchedule()}"></td>
+<!--                <td th:text="${child.getHead()?.getWorkSchedule()}"></td>-->
                 <td class = "column-phone" th:text="${child.getHead()?.getPhoneNumber()}"></td>
                 <td class = "column-phone" th:text="${child.getHead()?.getCellPhone()}"></td>
             </tr>
@@ -45,9 +45,9 @@
                         <td th:text="${child.getName()}"  th:style="'padding-left:' + ${0.5 + level*2} + 'em'"></td>
                         <td th:text="${empl.getPosition()}"></td>
                         <td ><a class="employee-link" th:text="${empl.getFullName()}" href="#" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${empl.getId()}"></a></td>
-                        <td th:text="${empl.getWorkSchedule()}"></td>
-                        <td th:text="${#strings.isEmpty(empl.getPhoneNumber()) ? 'нет' : empl.getPhoneNumber()}"></td>
-                        <td th:text="${#strings.isEmpty(empl.getCellPhone()) ? 'нет' : empl.getCellPhone()}"></td>
+<!--                        <td th:text="${empl.getWorkSchedule()}"></td>-->
+                        <td class = "column-phone"  th:text="${#strings.isEmpty(empl.getPhoneNumber()) ? 'нет' : empl.getPhoneNumber()}"></td>
+                        <td class = "column-phone"  th:text="${#strings.isEmpty(empl.getCellPhone()) ? 'нет' : empl.getCellPhone()}"></td>
                     </tr>
                 </th:block>
             </th:block>
@@ -128,6 +128,7 @@
     })
 
     $(window).on('load', function() {
+        setTableHead();
         let searchedText = getUrlParameter('searchtext')
         // $("#addressData.li:contains('"+searchedText+"')").each( function( i, element ) {
         //     var content = $(element).text();
@@ -136,6 +137,18 @@
         // });
         // // Highlight search term inside a specific context
         $("#addressData").unmark().mark(searchedText);
+    });
+
+    function setTableHead(){
+        let headEl = $(".navbar");
+        let tableHead = $("#table-head");
+        let mainBlock = $("#main-block");
+        tableHead.css("top", Math.ceil(headEl.outerHeight(true)));
+        mainBlock.css("padding-top", Math.ceil(headEl.outerHeight(true)));
+    }
+
+    $(window).on('resize', function() {
+        setTableHead();
     });
 
 
@@ -178,10 +191,7 @@
                     subElement.attr("wrapCount", --wrapCount);
                 }
             })
-            //fadeIn(200)//.show();
-            // element.removeClass("group-unwrap").addClass("group-wrap");
-            //$("." + groupId + " .group-unwrap").removeClass("group-unwrap").addClass("group-wrap");
-            // element.removeAttr('rolled');
+
         }
     }
 
