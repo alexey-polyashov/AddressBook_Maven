@@ -187,6 +187,12 @@ public class DepartmentService {
         serviceInfoService.setUpdateData();
         return newDepartment.getId();
     }
+    public Department addRaw(NewDepartmentData newDepartmentData){
+        Department newDepartment = departmentMapper.toDepartment(newDepartmentData);
+        departmentRepo.save(newDepartment);
+        serviceInfoService.setUpdateData();
+        return newDepartment;
+    }
 
     public List<DepartmentData> findByCode(String code){
         List<Department> departments = departmentRepo.findDepartmentByCode(code);

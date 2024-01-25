@@ -16,6 +16,9 @@ public class ServiceInfoService {
 
     public void setUpdateData(){
         ServiceInfo serviceInfoList = serviceInfoRepo.getFirstByOrderById();
+        if(serviceInfoList==null){
+            serviceInfoList = new ServiceInfo();
+        }
         Date currentDate = new Date();
         serviceInfoList.setUpdateDate(new java.sql.Timestamp(currentDate.getTime()));
         serviceInfoRepo.save(serviceInfoList);

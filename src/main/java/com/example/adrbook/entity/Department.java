@@ -1,5 +1,6 @@
 package com.example.adrbook.entity;
 
+import com.example.adrbook.dto.NewDepartmentData;
 import com.example.adrbook.utility.DataType;
 
 import javax.persistence.*;
@@ -81,6 +82,7 @@ public class Department {
         }
         return getParent().get().getId();
     }
+
     public String getParentCode() {
         if (getParent().isEmpty()) {
             return "";
@@ -108,6 +110,7 @@ public class Department {
         }
         return getHead().get().getEmail();
     }
+
     public Long getHeadId() {
         if (getHead().isEmpty()) {
             return 0L;
@@ -134,4 +137,5 @@ public class Department {
     public void setHead(PersonEntity head) {
         this.head = head;
     }
+
 }

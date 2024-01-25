@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.2'
 
 services:
   mysqldb:
@@ -16,6 +16,7 @@ services:
     depends_on:
       - mysqldb
     build: .
+    image: adrbook-app:adrbook-app
     restart: on-failure
     env_file: .env
     ports:

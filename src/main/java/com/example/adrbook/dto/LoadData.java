@@ -1,23 +1,33 @@
 package com.example.adrbook.dto;
 
 import java.util.List;
+import java.util.Map;
 
 public class LoadData {
 
     private String organizationCode;
     private String organizationName;
     private String organizationINN;
-    private List<LoadDepartmentData> departmentList;
+    private Map<String, LoadDepartmentData> departmentList;
+    private Map<String, LoadEmployeeData> employeeList;
 
     public LoadData() {
     }
 
-    public List<LoadDepartmentData> getDepartmentList() {
+    public Map<String, LoadDepartmentData> getDepartmentList() {
         return departmentList;
     }
 
-    public void setDepartmentList(List<LoadDepartmentData> departmentList) {
+    public void setDepartmentList(Map<String, LoadDepartmentData> departmentList) {
         this.departmentList = departmentList;
+    }
+
+    public Map<String, LoadEmployeeData> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(Map<String, LoadEmployeeData> employeeList) {
+        this.employeeList = employeeList;
     }
 
     public String getOrganizationCode() {

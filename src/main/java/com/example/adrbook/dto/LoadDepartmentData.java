@@ -5,10 +5,8 @@ import java.util.List;
 public class LoadDepartmentData {
     private String name;
     private String code;
-    private Long parentCode;
-    private Long headTabNumber;
-
-    private List<LoadEmployeeData> emloyeeList;
+    private String parentCode;
+    private String headTabNumber;
 
     public LoadDepartmentData() {
     }
@@ -29,27 +27,20 @@ public class LoadDepartmentData {
         this.code = code;
     }
 
-    public Long getParentCode() {
+    public String getParentCode() {
         return parentCode;
     }
 
-    public void setParentCode(Long parentCode) {
+    public void setParentCode(String parentCode) {
         this.parentCode = parentCode;
     }
 
-    public Long getHeadTabNumber() {
+    public String getHeadTabNumber() {
         return headTabNumber;
     }
 
-    public void setHeadTabNumber(Long headTabNumber) {
+    public void setHeadTabNumber(String headTabNumber) {
         this.headTabNumber = headTabNumber;
     }
 
-    public List<LoadEmployeeData> getEmloyeesList() {
-        return emloyeeList;
-    }
-
-    public void setEmloyeesList(List<LoadEmployeeData> emloyeesList) {
-        this.emloyeeList = emloyeesList;
-    }
 }

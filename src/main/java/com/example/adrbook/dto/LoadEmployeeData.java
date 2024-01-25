@@ -10,7 +10,16 @@ public class LoadEmployeeData {
     private String cellPhone;
     private Date birthDay;
     private String email;
-    private Long departmentCode;
+    private String departmentCode;
+    private String workSchedule;
+
+    public String getWorkSchedule() {
+        return workSchedule;
+    }
+
+    public void setWorkSchedule(String workSchedule) {
+        this.workSchedule = workSchedule;
+    }
 
     public String getTabNumber() {
         return tabNumber;
@@ -68,11 +77,11 @@ public class LoadEmployeeData {
         this.email = email;
     }
 
-    public Long getDepartmentCode() {
+    public String getDepartmentCode() {
         return departmentCode;
     }
 
-    public void setDepartmentCode(Long departmentCode) {
+    public void setDepartmentCode(String departmentCode) {
         this.departmentCode = departmentCode;
     }
 
