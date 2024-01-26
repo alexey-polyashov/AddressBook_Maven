@@ -10,6 +10,7 @@ import com.example.adrbook.service.DepartmentService;
 import com.example.adrbook.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.*;
 
@@ -36,18 +37,37 @@ public class LoadDataManager {
 
         //proceed departments
         for(Map.Entry<String,LoadDepartmentData> element: depList.entrySet()){
+
             LoadDepartmentData loadDep = element.getValue();
             Department department = getDepartmentByCode(element.getKey(), loadDep, depList);
+            Department parentDep = new Department();
+
+            if(loadDep.getParentCode()!=null){
+                LoadDepartmentData parentDepData = depList.get(loadDep.getParentCode());
+                if(parentDepData==null){
+                    throw new NotFoundException("Обработка подразделения " + element.getKey() + ": родительское подразделение с кодом " + loadDep.getParentCode() + " не найдено во входящих данных");
+                }
+                parentDep = getDepartmentByCode(loadDep.getParentCode(), parentDepData, depList);
+            }
+
+
             if(
                     !(Objects.equals(department.getCode(), loadDep.getCode())
                             && Objects.equals(department.getName(), loadDep.getName())
+                            && Objects.equals(department.getId(), parentDep.getId())
                     )
             ){
                 department.setCode(loadDep.getCode());
                 department.setName(loadDep.getName());
+                if(loadDep.getParentCode()!=null) {
+                    department.setParent(parentDep);
+                }else{
+                    department.setParent(null);
+                }
                 departmentRepo.save(department);
             }
             passedDepartments++;
+
         }
 
         //proceed employees
@@ -56,7 +76,7 @@ public class LoadDataManager {
             String depCode = loadEmp.getDepartmentCode();
             LoadDepartmentData emplDep = depList.get(loadEmp.getDepartmentCode());
             if(emplDep==null){
-                throw new NotFoundException("Подразделение сотрудника с кодом " + depCode + " не найдено во входящих данных");
+                throw new NotFoundException("Обработка сотрудника " + element.getKey() + ": подразделение сотрудника с кодом " + depCode + " не найдено во входящих данных");
             }
             Department department = getDepartmentByCode(depCode, emplDep, depList);
             PersonEntity person = getPersonByCode(element.getKey(), loadEmp, department, empList);
@@ -65,7 +85,7 @@ public class LoadDataManager {
                             && Objects.equals(person.getFullName(), loadEmp.getFullName())
                             && Objects.equals(person.getEmail(), loadEmp.getEmail())
                             && Objects.equals(person.getPhoneNumber(), loadEmp.getPhoneNumber())
-                            && Objects.equals(person.getBirthDay(), loadEmp.getBirthDay())
+                            && Objects.equals(StringUtils.toString(person.getBirthDay()), StringUtils.toString(loadEmp.getBirthDay()))
                             && Objects.equals(person.getCellPhone(), loadEmp.getCellPhone())
                             && Objects.equals(person.getPosition(), loadEmp.getPosition())
                             && Objects.equals(person.getWorkSchedule(), loadEmp.getWorkSchedule())
@@ -81,13 +101,20 @@ public class LoadDataManager {
         for(Map.Entry<String,LoadDepartmentData> element: depList.entrySet()){
             LoadDepartmentData loadDep = element.getValue();
             Department department = getDepartmentByCode(element.getKey(), loadDep, depList);
-            PersonEntity person = personRepo.findPersonEntityByTabNumber(loadDep.getHeadTabNumber()).
-                    orElseThrow(()->new NotFoundException("Руководитель с табельным номером " + loadDep.getHeadTabNumber() + " не найден"));
-            if(department.getHead().isEmpty() && !loadDep.getHeadTabNumber().isEmpty()
-                    || department.getHead().isPresent() && loadDep.getHeadTabNumber().isEmpty()
-                    || !Objects.equals(department.getHead().get().getTabNumber(), loadDep.getHeadTabNumber())
+            PersonEntity person = new PersonEntity();
+            if(!StringUtils.isEmpty(loadDep.getHeadTabNumber())) {
+                person = personRepo.findPersonEntityByTabNumber(loadDep.getHeadTabNumber()).
+                        orElseThrow(() -> new NotFoundException("Обработка подразделения " + element.getKey() + ": руководитель с табельным номером " + loadDep.getHeadTabNumber() + " не найден"));
+            }
+            if(department.getHead().isPresent() && StringUtils.isEmpty(loadDep.getHeadTabNumber())
+                    || department.getHead().isEmpty() && !StringUtils.isEmpty(loadDep.getHeadTabNumber())
+                    || !Objects.equals(department.getHead().orElse(new PersonEntity()).getId(), person.getId())
             ){
-                department.setHead(person);
+                if(!StringUtils.isEmpty(loadDep.getHeadTabNumber())) {
+                    department.setHead(person);
+                }else{
+                    department.setHead(null);
+                }
                 departmentRepo.save(department);
             }
         }
@@ -104,6 +131,23 @@ public class LoadDataManager {
         for(Long depId:deleteList){
             try {
                 departmentRepo.deleteById(depId);
+            } catch (Exception e){
+                continue;
+            }
+        }
+
+        //delete persons
+        List<PersonEntity> fullPersList = personRepo.findAll();
+        deleteList = new ArrayList<>();
+
+        for(PersonEntity element: fullPersList){
+            if(empList.get(element.getTabNumber())==null){
+                deleteList.add(element.getId());
+            }
+        }
+        for(Long empId:deleteList){
+            try {
+                personRepo.deleteById(empId);
             } catch (Exception e){
                 continue;
             }
@@ -143,7 +187,7 @@ public class LoadDataManager {
             NewDepartmentData newDepartmentData = new NewDepartmentData();
             newDepartmentData.setCode(loadDepartmentData.getCode());
             newDepartmentData.setName(loadDepartmentData.getName());
-            if(!loadDepartmentData.getParentCode().isEmpty()){
+            if(!StringUtils.isEmpty(loadDepartmentData.getParentCode())){
                 LoadDepartmentData parentDepartmentData = depList.get(loadDepartmentData.getParentCode());
                 if(parentDepartmentData==null){
                     throw new NotFoundException("Родительское подразделение с кодом " + loadDepartmentData.getParentCode() + " не найдено во входящих данных");

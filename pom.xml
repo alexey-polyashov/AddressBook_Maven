@@ -52,6 +52,11 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -102,6 +107,19 @@
 			</plugin>
 
 		</plugins>
+
+		<finalName>${project.name}-test</finalName>
+
 	</build>
+
+	<profiles>
+		<profile>
+			<id>deploy</id>
+			<build>
+				<directory>work</directory>
+				<finalName>${project.name}-work</finalName>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

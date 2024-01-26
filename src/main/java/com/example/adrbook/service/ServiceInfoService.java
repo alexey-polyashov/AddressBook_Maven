@@ -26,7 +26,12 @@ public class ServiceInfoService {
 
     public String getUpdateData(String format){
         ServiceInfo serviceInfoList = serviceInfoRepo.getFirstByOrderById();
-        Date updateDate = serviceInfoList.getUpdateDate();
+        Date updateDate;
+        if(serviceInfoList==null){
+            updateDate = new Date(0L);
+        }else{
+            updateDate = serviceInfoList.getUpdateDate();
+        }
         SimpleDateFormat formatter = new SimpleDateFormat(format);
         return formatter.format(updateDate);
     }

@@ -4,6 +4,7 @@ import com.example.adrbook.dto.NewDepartmentData;
 import com.example.adrbook.utility.DataType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
