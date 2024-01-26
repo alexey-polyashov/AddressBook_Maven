@@ -8,6 +8,7 @@ import com.example.adrbook.repo.DepartmentRepo;
 import com.example.adrbook.repo.PersonEntityRepo;
 import com.example.adrbook.service.DepartmentService;
 import com.example.adrbook.service.PersonService;
+import com.example.adrbook.service.ServiceInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
@@ -24,6 +25,8 @@ public class LoadDataManager {
     private DepartmentRepo departmentRepo;
     @Autowired
     private PersonService personService;
+    @Autowired
+    private ServiceInfoService serviceInfoService;
     @Autowired
     private PersonEntityRepo personRepo;
 
@@ -145,6 +148,7 @@ public class LoadDataManager {
                 deleteList.add(element.getId());
             }
         }
+
         for(Long empId:deleteList){
             try {
                 personRepo.deleteById(empId);
@@ -152,6 +156,8 @@ public class LoadDataManager {
                 continue;
             }
         }
+
+        serviceInfoService.setUpdateData();
 
         //finish
         return "Обработано подразделений - " + passedDepartments + ", сотрудников - " + passedEmployees;
