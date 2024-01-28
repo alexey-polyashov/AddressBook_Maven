@@ -103,4 +103,11 @@ public class PersonService {
             serviceInfoService.setUpdateData();
             return newPerson.getId();
     }
+
+    public List<String> findAllNames() {
+        return personRepo.findAll()
+                .stream()
+                .map(personMapper::toPersonName)
+                .collect(Collectors.toList());
+    }
 }

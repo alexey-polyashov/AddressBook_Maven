@@ -6,6 +6,7 @@ import com.example.adrbook.entity.PersonEntity;
 import com.example.adrbook.exception.NotFoundException;
 import com.example.adrbook.repo.DepartmentRepo;
 import com.example.adrbook.repo.PersonEntityRepo;
+import com.example.adrbook.utility.DataType;
 import com.example.adrbook.utility.DepartmentID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -133,6 +134,21 @@ public class DepartmentService {
         return  depListDto;
     }
 
+    public DepartmentsList getDepartmentListByNameWithEmployees(String searchtext){
+        Set<Department> allDepartments = departmentRepo.getDepartmentsAndEmployees();
+        Set<Department> findedList = departmentRepo.getDepartmentsByNameAndEmployees(searchtext.toLowerCase());
+        DepartmentsList depListDto = new DepartmentsList();
+        for(Department department: findedList) {
+            DepartmentData curDep = departmentMapper.toDepartmentData(department);
+            curDep.setDepartments(new ArrayList<>());
+            depListDto.getDepartments().add(curDep);
+            curDep.getDepartments().addAll(deepDepartmentsPass(allDepartments, department, true));
+        }
+        List<Department> departmentsArrayList =  expandDepartmentsList(findedList);
+//        depListDto.setDepartments(deepDepartmentsPass(departmentsArrayList, null, true));
+        return  depListDto;
+    }
+
     public DepartmentData getSubDepartmentsList(Long departmentId, Boolean showEmployees){
 
         Department department = new Department();
@@ -256,5 +272,11 @@ public class DepartmentService {
         department.setHead(head);
         departmentRepo.save(department);
         serviceInfoService.setUpdateData();
+    }
+
+    public List<String> findAllNames() {
+        return departmentRepo.findAll().stream()
+                .map(departmentMapper::toDepartmentNames)
+                .collect(Collectors.toList());
     }
 }

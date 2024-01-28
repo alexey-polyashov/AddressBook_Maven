@@ -47,4 +47,9 @@ public interface DepartmentRepo extends JpaRepository<Department, Long> {
     @Query("Select d From Department d Where d.head.id = :headId")
     List<Department> findByHeadId(Long headId);
 
+    @Query("Select d From Department d " +
+            " Left JOIN FETCH d.employees AS empl " +
+            " Where lower(d.name) like %:searchtext%" +
+            " order by d.name, empl.position, empl.fullName")
+    Set<Department> getDepartmentsByNameAndEmployees(String searchtext);
 }

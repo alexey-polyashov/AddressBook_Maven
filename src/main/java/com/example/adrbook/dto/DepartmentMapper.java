@@ -59,4 +59,7 @@ public abstract class DepartmentMapper {
         }
     }
 
+    public String toDepartmentNames(Department department) {
+        return department.getName();
+    }
 }

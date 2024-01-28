@@ -41,4 +41,7 @@ public abstract class PersonEntityMapper {
         }
     }
 
+    public String toPersonName(PersonEntity personEntity) {
+        return personEntity.getFullName();
+    }
 }

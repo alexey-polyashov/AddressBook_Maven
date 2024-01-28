@@ -130,13 +130,27 @@
     $(window).on('load', function() {
         setTableHead();
         let searchedText = getUrlParameter('searchtext')
+        searchedText = searchedText.replaceAll("+"," ");
         // $("#addressData.li:contains('"+searchedText+"')").each( function( i, element ) {
         //     var content = $(element).text();
         //     content = content.replace( searchedText, '<span class="mark">' + searchedText + '</span>' );
         //     element.html( content );
         // });
         // // Highlight search term inside a specific context
-        $("#addressData").unmark().mark(searchedText);
+        $("#addressData").unmark().mark(searchedText, {"separateWordSearch": false});
+        $("#search-field").change(function(ev, el){
+            let opt = $('#search-datalist option[value="'+$(this).val()+'"]');
+            let searchType = opt.attr('search-type');
+            $('#search-value-type').val(searchType)
+            $('#search-form').submit();
+        });
+        $("#search-field").keypress(function(event){
+            if(event.keyCode === 13){
+                $('#search-form').submit();
+            }else{
+                $('#search-value-type').val('')
+            }
+        })
     });
 
     function setTableHead(){
