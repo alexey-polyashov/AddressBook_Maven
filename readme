@@ -1,0 +1,7 @@
+Build work distributive
+mvn install -Pdeploy
+
+copy to server
+
+run command
+sudo systemctl restart AdrBook-work

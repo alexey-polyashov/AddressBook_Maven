@@ -141,6 +141,7 @@
         $("#search-field").change(function(ev, el){
             let opt = $('#search-datalist option[value="'+$(this).val()+'"]');
             let searchType = opt.attr('search-type');
+            $(this).val($(this).val().trim());
             $('#search-value-type').val(searchType)
             $('#search-form').submit();
         });

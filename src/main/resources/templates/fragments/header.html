@@ -35,7 +35,7 @@
                 <input autofocus id="search-field" name="searchtext" class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск" th:value="${requestParams.get('searchtext')!=null?requestParams.get('searchtext')[0]:''}" list="search-datalist">
                 <input type="hidden" id="search-value-type" name="search-value-type" value="">
                 <datalist id="search-datalist">
-                       <option class="search-option" th:each="optionTag : ${searchList}" th:value="${optionTag.getKey()}" th:text="${searchHelper.getTypePresentation(optionTag.getValue())}" th:attrappend="search-type=${optionTag.getValue()}"></option>
+                       <option class="search-option" th:each="optionTag : ${searchList}" th:value="${#strings.trim(optionTag.getKey()) + '&nbsp'}" th:text="${searchHelper.getTypePresentation(optionTag.getValue())}" th:attrappend="search-type=${optionTag.getValue()}"></option>
                 </datalist>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button id=#submitSearch class="btn btn-outline-success me-md-1" type="submit">Поиск</button>

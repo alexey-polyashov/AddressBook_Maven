@@ -60,7 +60,8 @@ footer{
 .table thead th {
     text-align: center;
     background-color: #F26C21;
-    color: darkslategrey;
+    color: white;
+    font-weight: 400;
 }
 
 .table tbody td {
