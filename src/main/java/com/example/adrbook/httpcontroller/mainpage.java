@@ -40,6 +40,8 @@ public class mainpage {
         model.addAttribute("searchList", searchHelper.getSearchTags());
         model.addAttribute("searchHelper", searchHelper);
         if(searchtext!=null && !searchtext.isEmpty()){
+            searchtext = searchtext.replace("\u00a0"," "); //replace &nbsp
+            searchtext = searchtext.trim(); //trim white spaces
             if(StringUtils.isEmpty(searchValueType) || StringUtils.equals(searchValueType, "person")) {
                 model.addAttribute("departmentList", departmentService.getDepartmentListWithEmployees(searchtext));
             } else if (StringUtils.equals(searchValueType, "department")) {
