@@ -37,7 +37,7 @@
                 <td><a class="employee-link" th:text="${child.getHead()?.getFullName()}" href="#" data-bs-toggle="modal" data-bs-target="#employeeModel" th:attr="data-bs-whatever=${child.getHead()?.getId()}"></a></td>
 <!--                <td th:text="${child.getHead()?.getWorkSchedule()}"></td>-->
                 <td class = "column-phone" th:text="${child.getHead()?.getPhoneNumber()}"></td>
-                <td class = "column-email"><a th:if="${#strings.isEmpty(child.getHead()?.getEmail())==false}" th:href="${'mailto:' + child.getHead()?.getEmail()}">[[${child.getHead()?.getEmail()}]]</a><span th:if="${#strings.isEmpty(child.getHead()?.getEmail())==true}">нет</span></td>
+                <td class = "column-email"><a th:if="${#strings.isEmpty(child.getHead()?.getEmail())==false}" th:href="${'mailto:' + child.getHead()?.getEmail()}">[[${child.getHead()?.getEmail()}]]</a><span th:if="${child.getHead()?.getId()!=null && #strings.isEmpty(child.getHead()?.getEmail())==true}">нет</span></td>
 <!--                <td class = "column-phone" th:text="${child.getHead()?.getCellPhone()}"></td>-->
             </tr>
             <th:block th:each="empl : ${child.getEmployees()}">
